@@ -2078,7 +2078,7 @@ var UsersService = /** @class */ (function () {
     function UsersService(http) {
         this.http = http;
         //--------- MAIN URL -----------------------------
-        this._url = "http://127.0.0.1:8040/";
+        this._url = "https://127.0.0.1:8040/";
     }
     //-------------Post Clinician Registration -----------------------------
     UsersService.prototype.regClinician = function (record) {
