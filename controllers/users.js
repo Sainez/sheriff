@@ -16,13 +16,15 @@ var AdminUser = require('../models/User').AdminUser;
 // ============================================//
 
 module.exports = function(app){
-    app.use(cors());
+    
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended : true}));
     var secret = 'thenewsheriff'; 
 
     var superClinician = app.locals.superClinician;
     var superAdmin = app.locals.superAdmin;
+
+    app.options('*', cors());
 
 
 //=== Check Password ===

@@ -11,7 +11,7 @@ var app = express();
 
 
 
-app.use(cors());
+
 
 var users = require('./controllers/users.js');
 var files = require('./controllers/files.js');
@@ -77,6 +77,8 @@ app.use(passport.session());
 //Static files
 app.use(express.static(path.join(__dirname, '/public')));
 
+// 
+app.options('*', cors());
 
 //Get all Routes
 app.get('/*', cors(), function(req, res){
