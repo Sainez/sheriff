@@ -79,12 +79,12 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 // 
 var corsOptions = {
-    origin: '*',
+    
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
 
 //Get all Routes
-app.get('/*', cors(corsOptions), function(req, res){
+app.get('/*', cors(), function(req, res){
     res.sendFile(path.join(__dirname, '/public/index.html'));
 });
 

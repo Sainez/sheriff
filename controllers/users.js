@@ -40,7 +40,7 @@ var checkPassword = function(password){
 
 
 //------------------- Clinician Registration --------------------------------------
-app.post('/regclinician', cors(corsOptions), urlencodedParser, function(req, res){ 
+app.post('/regclinician', cors(), urlencodedParser, function(req, res){ 
     
     ClinicianUser.findOne({ mail : req.body.mail })
     .then(user => {
@@ -65,7 +65,7 @@ app.post('/regclinician', cors(corsOptions), urlencodedParser, function(req, res
 });
 
 //------------------------Clinician Login--------------------------------------
-app.post('/logclinician', cors(corsOptions), urlencodedParser, function(req, res, next){
+app.post('/logclinician', cors(), urlencodedParser, function(req, res, next){
 
     if (req.body){
    
