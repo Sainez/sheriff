@@ -759,8 +759,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_files_service__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./services/files.service */ "./src/app/services/files.service.ts");
 /* harmony import */ var _services_stats_service__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./services/stats.service */ "./src/app/services/stats.service.ts");
 /* harmony import */ var _services_notify_service__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./services/notify.service */ "./src/app/services/notify.service.ts");
-/* harmony import */ var _interceptor_httpconfig_interceptor__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./interceptor/httpconfig.interceptor */ "./src/app/interceptor/httpconfig.interceptor.ts");
-
 
 
 
@@ -826,8 +824,7 @@ var AppModule = /** @class */ (function () {
                     preventDuplicates: false,
                 })
             ],
-            providers: [_services_users_service__WEBPACK_IMPORTED_MODULE_26__["UsersService"], _services_files_service__WEBPACK_IMPORTED_MODULE_27__["FilesService"], _services_stats_service__WEBPACK_IMPORTED_MODULE_28__["StatsService"], _services_notify_service__WEBPACK_IMPORTED_MODULE_29__["NotifyService"], _auth_clinician_guard__WEBPACK_IMPORTED_MODULE_24__["ClinicianGuard"], _auth_admin_guard__WEBPACK_IMPORTED_MODULE_25__["AdminGuard"],
-                { provide: _angular_common_http__WEBPACK_IMPORTED_MODULE_20__["HTTP_INTERCEPTORS"], useClass: _interceptor_httpconfig_interceptor__WEBPACK_IMPORTED_MODULE_30__["HttpConfigInterceptor"], multi: true }
+            providers: [_services_users_service__WEBPACK_IMPORTED_MODULE_26__["UsersService"], _services_files_service__WEBPACK_IMPORTED_MODULE_27__["FilesService"], _services_stats_service__WEBPACK_IMPORTED_MODULE_28__["StatsService"], _services_notify_service__WEBPACK_IMPORTED_MODULE_29__["NotifyService"], _auth_clinician_guard__WEBPACK_IMPORTED_MODULE_24__["ClinicianGuard"], _auth_admin_guard__WEBPACK_IMPORTED_MODULE_25__["AdminGuard"]
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]]
         })
@@ -1662,68 +1659,6 @@ var XrayComponent = /** @class */ (function () {
             src_app_services_notify_service__WEBPACK_IMPORTED_MODULE_3__["NotifyService"]])
     ], XrayComponent);
     return XrayComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/interceptor/httpconfig.interceptor.ts":
-/*!*******************************************************!*\
-  !*** ./src/app/interceptor/httpconfig.interceptor.ts ***!
-  \*******************************************************/
-/*! exports provided: HttpConfigInterceptor */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpConfigInterceptor", function() { return HttpConfigInterceptor; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-
-
-
-
-
-var HttpConfigInterceptor = /** @class */ (function () {
-    function HttpConfigInterceptor() {
-    }
-    HttpConfigInterceptor.prototype.intercept = function (request, next) {
-        var cliToken = localStorage.getItem('clinicianToken');
-        var admToken = localStorage.getItem('adminToken');
-        if (cliToken) {
-            request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + cliToken) });
-        }
-        if (admToken) {
-            request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + admToken) });
-        }
-        if (!request.headers.has('Content-Type')) {
-            request = request.clone({ headers: request.headers.set('Content-Type', 'application/json') });
-        }
-        request = request.clone({ headers: request.headers.set('Accept', 'application/json') });
-        return next.handle(request).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["map"])(function (event) {
-            if (event instanceof _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpResponse"]) {
-                console.log('event--->>>', event);
-                // this.errorDialogService.openDialog(event);
-            }
-            return event;
-        }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(function (error) {
-            var data = {};
-            data = {
-                reason: error && error.error.reason ? error.error.reason : '',
-                status: error.status
-            };
-            return Object(rxjs__WEBPACK_IMPORTED_MODULE_3__["throwError"])(error);
-        }));
-    };
-    HttpConfigInterceptor = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
-    ], HttpConfigInterceptor);
-    return HttpConfigInterceptor;
 }());
 
 
