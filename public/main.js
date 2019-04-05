@@ -1730,6 +1730,8 @@ var LoginComponent = /** @class */ (function () {
             _this.router.navigate(["/kimsapp/clinician"]);
         }, function (error) {
             _this.notifyService.showError(error.error, "Error !!");
+            console.log(error);
+            console.log(error.error);
         });
     };
     LoginComponent.prototype.logAdmin = function () {
