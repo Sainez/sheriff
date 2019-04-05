@@ -1690,7 +1690,7 @@ var HttpsRequestInterceptor = /** @class */ (function () {
     function HttpsRequestInterceptor() {
     }
     HttpsRequestInterceptor.prototype.intercept = function (req, next) {
-        var dupReq = req.clone({ headers: req.headers.set('Access-Control-Allow-Origin', 'http://127.0.0.1:8040/') });
+        var dupReq = req.clone({ headers: req.headers.set('Access-Control-Allow-Origin', '*') });
         return next.handle(dupReq);
     };
     HttpsRequestInterceptor = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
