@@ -86,6 +86,12 @@ var corsOptions = {
 
 app.use(cors((corsOptions)));
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 //Get all Routes
 app.get('/*', function(req, res){
     res.sendFile(path.join(__dirname, '/public/index.html'));
