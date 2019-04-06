@@ -2082,7 +2082,7 @@ var UsersService = /** @class */ (function () {
     }
     //-------------Post Clinician Registration -----------------------------
     UsersService.prototype.regClinician = function (record) {
-        return this.http.post(this._url + "regclinician", record);
+        return this.http.post(this._url + "regclinician", record, { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', "Access-Control-Allow-Method": 'GET,HEAD,PUT,PATCH,POST,DELETE', "Control": "Content-Type, Authorization" } });
     };
     //-------------Post Clinician Login -----------------------------
     UsersService.prototype.logClinician = function (record) {
@@ -2090,7 +2090,7 @@ var UsersService = /** @class */ (function () {
     };
     //-------------Post Admin Registration -----------------------------
     UsersService.prototype.regAdmin = function (record) {
-        return this.http.post(this._url + "regadmin", record);
+        return this.http.post(this._url + "regadmin", record, { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', "Access-Control-Allow-Method": 'GET,HEAD,PUT,PATCH,POST,DELETE', "Control": "Content-Type, Authorization" } });
     };
     //-------------Post Clinician Login -----------------------------
     UsersService.prototype.logAdmin = function (record) {

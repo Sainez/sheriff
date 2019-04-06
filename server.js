@@ -72,18 +72,7 @@ app.use(passport.session());
 
 
 
-var whitelist = [
-  '*',
-];
-var corsOptions = {
-  origin : '*',
-  Origin: function(origin, callback){
-      var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
-      callback(null, originIsWhitelisted);
-  },
-  credentials: true
-};
-app.use(cors(corsOptions));
+app.use(cors());
 
 //Static files
 app.use(express.static(path.join(__dirname, '/public')));
