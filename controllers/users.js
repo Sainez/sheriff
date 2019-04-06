@@ -32,13 +32,7 @@ var checkPassword = function(password){
     return hash;
 };
 
-//setting cors
 
-app.use(cors(), function(req, res) {
-    
-
-   
-});
 
 var whitelist = ['https://sheriffamon.herokuapp.com/', 'http://sheriffamon.herokuapp.com/']
 var corsOptions = {
