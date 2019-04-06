@@ -34,7 +34,9 @@ var checkPassword = function(password){
 
 // set corsOption
 var corsOptions = {
-  "Access-Control-Allow-Origin": '*'
+  "Access-Control-Allow-Origin": '*',
+  "Access-Control-Allow-Methods" : 'GET,POST,PATCH,DELETE,PUT,OPTIONS',
+  "Access-Control-Allow-Headers" : 'Origin, Content-Type, X-Auth-Token, content-type',
 }
 
 //------------------- Clinician Registration --------------------------------------
