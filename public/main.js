@@ -2069,10 +2069,7 @@ __webpack_require__.r(__webpack_exports__);
 //--------------------------------
 var httpOptions = {
     Headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-        "Content-type": "aplication/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+        "Content-type": "aplication/json"
     })
 };
 //---------------------------------
