@@ -62,6 +62,11 @@ app.post('/regclinician', urlencodedParser, function(req, res){
 app.post('/logclinician', urlencodedParser, function(req, res, next){
 
     if (req.body){
+    
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
+    res.setHeader('Access-Control-Allow-Credentials', true);
    
     var user = new Array;
     user.mail = req.body.mail;
