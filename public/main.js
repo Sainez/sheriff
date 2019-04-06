@@ -2070,8 +2070,7 @@ __webpack_require__.r(__webpack_exports__);
 var httpOptions = {
     Headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
         "Content-type": "aplication/json",
-        'Accept': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Accept': 'application/json'
     })
 };
 //---------------------------------
