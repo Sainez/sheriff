@@ -79,11 +79,15 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 var corsOptions = {
   origin: '*',
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  allowedHeaders: "Content-Type, Authorization",
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
+app.use(cors(corsOptions));
+
 //Get all Routes
-app.get('/*', cors(corsOptions), function(req, res){
+app.get('/*', function(req, res){
     res.sendFile(path.join(__dirname, '/public/index.html'));
 });
 
