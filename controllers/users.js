@@ -34,7 +34,7 @@ var checkPassword = function(password){
 
 // set corsOption
 var corsOptions = {
-  origin: '*'
+  "Access-Control-Allow-Origin": '*'
 }
 
 //------------------- Clinician Registration --------------------------------------
