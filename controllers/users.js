@@ -40,12 +40,16 @@ app.use(cors(), function(req, res) {
    
 });
 
-app.use(cors({
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE', 
-    'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
-    'Access-Control-Allow-Credentials': true
-}))
+var whitelist = ['https://sheriffamon.herokuapp.com/', 'http://sheriffamon.herokuapp.com/']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 
 //------------------- Clinician Registration --------------------------------------
 app.post('/regclinician', urlencodedParser, function(req, res){ 
@@ -74,7 +78,7 @@ app.post('/regclinician', urlencodedParser, function(req, res){
 });
 
 //------------------------Clinician Login--------------------------------------
-app.post('/logclinician', urlencodedParser, function(req, res, next){
+app.post('/logclinician', cors(corsOptions), urlencodedParser, function(req, res, next){
 
     if (req.body){
    
