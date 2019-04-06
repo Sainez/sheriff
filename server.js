@@ -73,7 +73,7 @@ app.use(passport.session());
 
 
 var whitelist = [
-  'http://0.0.0.0:4200',
+  '*',
 ];
 var corsOptions = {
   origin: function(origin, callback){
@@ -87,14 +87,7 @@ app.use(cors(corsOptions));
 //Static files
 app.use(express.static(path.join(__dirname, '/public')));
 
-/*
-app.use(cors({
-  allowedHeaders: ['Content-Type'],
-  origin: '*',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  preflightContinue: false
-}));
-*/
+
 //Get all Routes
 app.get('/*', function(req, res){
     res.sendFile(path.join(__dirname, '/public/index.html'));
