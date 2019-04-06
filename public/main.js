@@ -1730,6 +1730,7 @@ var LoginComponent = /** @class */ (function () {
             _this.router.navigate(["/kimsapp/clinician"]);
         }, function (error) {
             _this.notifyService.showError(error.error, "Error !!");
+            console.log(error);
         });
     };
     LoginComponent.prototype.logAdmin = function () {
@@ -2086,7 +2087,7 @@ var UsersService = /** @class */ (function () {
     };
     //-------------Post Clinician Login -----------------------------
     UsersService.prototype.logClinician = function (record) {
-        return this.http.post(this._url + "logclinician", record, { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', "Access-Control-Allow-Method": 'GET,HEAD,PUT,PATCH,POST,DELETE', "Control": "Content-Type, Authorization" } });
+        return this.http.post(this._url + "logclinician", record, { headers: { 'Content-Type': 'application/json', 'Origin': 'https://sheriffamon.herokuapp.com/kimsapp/login', "Access-Control-Allow-Method": 'GET,HEAD,PUT,PATCH,POST,DELETE', "Control": "Content-Type, Authorization" } });
     };
     //-------------Post Admin Registration -----------------------------
     UsersService.prototype.regAdmin = function (record) {
