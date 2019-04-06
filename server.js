@@ -60,6 +60,8 @@ app.locals = {
     activeUSER : [], // Open User info
 };
 
+//setting cors
+app.use(cors());
 
 // Controllers
 users(app);
@@ -71,8 +73,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-
-app.use(cors());
 
 //Static files
 app.use(express.static(path.join(__dirname, '/public')));
