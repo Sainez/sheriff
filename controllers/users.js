@@ -16,6 +16,7 @@ var AdminUser = require('../models/User').AdminUser;
 
 module.exports = function(app){
     
+    var cors = require('cors');
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended : true}));
     var secret = 'thenewsheriff'; 
@@ -31,15 +32,12 @@ var checkPassword = function(password){
     return hash;
 };
 
-
+//setting cors
+app.use(cors());
 
 //------------------- Clinician Registration --------------------------------------
 app.post('/regclinician', urlencodedParser, function(req, res){ 
 
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
-    res.setHeader('Access-Control-Allow-Credentials', true);
     
     ClinicianUser.findOne({ mail : req.body.mail })
     .then(user => {
@@ -67,11 +65,6 @@ app.post('/regclinician', urlencodedParser, function(req, res){
 app.post('/logclinician', urlencodedParser, function(req, res, next){
 
     if (req.body){
-    
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
-    res.setHeader('Access-Control-Allow-Credentials', true);
    
     var user = new Array;
     user.mail = req.body.mail;
@@ -136,11 +129,6 @@ app.post('/logclinician', urlencodedParser, function(req, res, next){
 //----------------- Admin Registration -----------------------------//
 app.post('/regadmin', urlencodedParser, function(req, res){
 
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
-    res.setHeader('Access-Control-Allow-Credentials', true);
-
     AdminUser.findOne({ mail : req.body.mail })
     .then(user => {
         if (user) {
@@ -167,11 +155,6 @@ app.post('/logadmin', urlencodedParser, function( req, res, next){
     
 
     if (req.body){ 
-
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE'); // If needed
-        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type'); // If needed
-        res.setHeader('Access-Control-Allow-Credentials', true);
 
         var user = new Array;
         user.mail = req.body.mail;
