@@ -24,10 +24,7 @@ module.exports = function(app){
     var superClinician = app.locals.superClinician;
     var superAdmin = app.locals.superAdmin;
 
-    var corsOptions = {
-        origin: '*',
-        optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-      }
+    app.use(cors());
 
 
 //=== Check Password ===
@@ -130,7 +127,7 @@ app.post('/logclinician', cors(), urlencodedParser, function(req, res, next){
 });
 
 //----------------- Admin Registration -----------------------------//
-app.post('/regadmin', cors(corsOptions), urlencodedParser, function(req, res){
+app.post('/regadmin', cors(), urlencodedParser, function(req, res){
 
     AdminUser.findOne({ mail : req.body.mail })
     .then(user => {
@@ -153,7 +150,7 @@ app.post('/regadmin', cors(corsOptions), urlencodedParser, function(req, res){
 
 
 //----------------- Admin Login -----------------------------//
-app.post('/logadmin', cors(corsOptions), urlencodedParser, function( req, res, next){
+app.post('/logadmin', cors(), urlencodedParser, function( req, res, next){
 
     
 
