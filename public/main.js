@@ -2088,7 +2088,6 @@ var UsersService = /** @class */ (function () {
     //-------------Post Clinician Login -----------------------------
     UsersService.prototype.logClinician = function (record) {
         return this.http.post(this._url + "logclinician", record, { headers: { 'Access-Control-Allow-Origin': 'http://localhost:4200', 'Access-Control-Allow-Referer': 'http://localhost:4200/',
-                'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.109 Safari/537.36',
                 'Access-Control-Request-Method': 'POST',
                 'Access-Control-Request-Headers': 'Content-Type',
                 'Content-Type': 'application/x-www-form-urlencoded',
