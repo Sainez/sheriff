@@ -1,4 +1,3 @@
-var cors = require('cors');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var urlencodedParser = bodyParser.urlencoded({extended: true});
@@ -24,7 +23,6 @@ module.exports = function(app){
     var superClinician = app.locals.superClinician;
     var superAdmin = app.locals.superAdmin;
 
-    app.use(cors());
 
 
 //=== Check Password ===
@@ -37,7 +35,7 @@ var checkPassword = function(password){
 
 
 //------------------- Clinician Registration --------------------------------------
-app.post('/regclinician', cors(), urlencodedParser, function(req, res){ 
+app.post('/regclinician', urlencodedParser, function(req, res){ 
     
     ClinicianUser.findOne({ mail : req.body.mail })
     .then(user => {
@@ -62,7 +60,7 @@ app.post('/regclinician', cors(), urlencodedParser, function(req, res){
 });
 
 //------------------------Clinician Login--------------------------------------
-app.post('/logclinician', cors(), urlencodedParser, function(req, res, next){
+app.post('/logclinician', urlencodedParser, function(req, res, next){
 
     if (req.body){
    
@@ -127,7 +125,7 @@ app.post('/logclinician', cors(), urlencodedParser, function(req, res, next){
 });
 
 //----------------- Admin Registration -----------------------------//
-app.post('/regadmin', cors(), urlencodedParser, function(req, res){
+app.post('/regadmin', urlencodedParser, function(req, res){
 
     AdminUser.findOne({ mail : req.body.mail })
     .then(user => {
@@ -150,7 +148,7 @@ app.post('/regadmin', cors(), urlencodedParser, function(req, res){
 
 
 //----------------- Admin Login -----------------------------//
-app.post('/logadmin', cors(), urlencodedParser, function( req, res, next){
+app.post('/logadmin', urlencodedParser, function( req, res, next){
 
     
 
