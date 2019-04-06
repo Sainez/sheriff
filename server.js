@@ -79,18 +79,12 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 var corsOptions = {
   origin: '*',
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  methods: "GET,POST,DELETE",
   allowedHeaders: "Content-Type, Authorization",
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
 app.use(cors((corsOptions)));
-
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
 
 //Get all Routes
 app.get('/*', function(req, res){
