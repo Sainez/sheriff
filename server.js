@@ -72,15 +72,17 @@ app.use(passport.session());
 
 
 
+var whitelist = [
+  'http://0.0.0.0:4200',
+];
 var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
+  origin: function(origin, callback){
+      var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+      callback(null, originIsWhitelisted);
+  },
+  credentials: true
+};
+app.use(cors(corsOptions));
 
 //Static files
 app.use(express.static(path.join(__dirname, '/public')));
@@ -94,7 +96,7 @@ app.use(cors({
 }));
 */
 //Get all Routes
-app.get('/*', cors(corsOptions), function(req, res){
+app.get('/*', function(req, res){
     res.sendFile(path.join(__dirname, '/public/index.html'));
 });
 
