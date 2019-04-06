@@ -5,33 +5,18 @@ var passport = require('passport');
 var cors = require('cors');
 var app = express();
 
-
-  // enable pre-flight
-
-
-
-
-
-
+// Controlers
 var users = require('./controllers/users.js');
 var files = require('./controllers/files.js');
 var stats = require('./controllers/stats.js');
-
-
-
-
-
-
 
 // DB Config
 var db = require('./config/keys').MongoURI;
 
 // Connect to Mongo 
-
 mongoose.connect(db, { useNewUrlParser: true } )
     .then(() => console.log('MongoDB Connected...'))
     .catch(err => console.log("Cannot connect to MongoDB!!"));
-
 
 // Passport Config
 require('./config/passport')(passport);
@@ -72,18 +57,13 @@ stats(app);
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
 //Static files
 app.use(express.static(path.join(__dirname, '/public')));
-
 
 //Get all Routes
 app.get('/*', function(req, res){
     res.sendFile(path.join(__dirname, '/public/index.html'));
 });
-
-
  
 //listen to port
 app.listen(process.env.PORT || 8040);
