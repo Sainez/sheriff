@@ -34,7 +34,7 @@ var checkPassword = function(password){
 
 
 
-var whitelist = ['https://sheriffamon.herokuapp.com/', 'http://sheriffamon.herokuapp.com/']
+var whitelist = ['*']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
