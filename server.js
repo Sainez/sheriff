@@ -72,21 +72,29 @@ app.use(passport.session());
 
 
 
-
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 
 //Static files
 app.use(express.static(path.join(__dirname, '/public')));
 
+/*
 app.use(cors({
-  "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Credentials": "true",
-      "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
-      "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-
+  allowedHeaders: ['Content-Type'],
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: false
 }));
-
+*/
 //Get all Routes
-app.get('/*', function(req, res){
+app.get('/*', cors(corsOptions), function(req, res){
     res.sendFile(path.join(__dirname, '/public/index.html'));
 });
 
