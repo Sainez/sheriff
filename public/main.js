@@ -1730,8 +1730,6 @@ var LoginComponent = /** @class */ (function () {
             _this.router.navigate(["/kimsapp/clinician"]);
         }, function (error) {
             _this.notifyService.showError(error.error, "Error !!");
-            console.log(error);
-            console.log(error.error);
         });
     };
     LoginComponent.prototype.logAdmin = function () {
@@ -2071,7 +2069,9 @@ __webpack_require__.r(__webpack_exports__);
 //--------------------------------
 var httpOptions = {
     Headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-        "Content-type": "aplication/json"
+        "Content-type": "aplication/json",
+        'Accept': 'application/json',
+        'Access-Control-Allow-Origin': '*'
     })
 };
 //---------------------------------
@@ -2080,7 +2080,7 @@ var UsersService = /** @class */ (function () {
     function UsersService(http) {
         this.http = http;
         //--------- MAIN URL -----------------------------
-        this._url = "https://127.0.0.1:8040/";
+        this._url = "http://127.0.0.1:8040/";
     }
     //-------------Post Clinician Registration -----------------------------
     UsersService.prototype.regClinician = function (record) {

@@ -77,13 +77,9 @@ app.use(passport.session());
 //Static files
 app.use(express.static(path.join(__dirname, '/public')));
 
-// 
-
-
-app.use(cors());
 
 //Get all Routes
-app.get('/*', function(req, res){
+app.get('/*', cors(), function(req, res){
     res.sendFile(path.join(__dirname, '/public/index.html'));
 });
 

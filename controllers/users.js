@@ -24,7 +24,6 @@ module.exports = function(app){
     var superAdmin = app.locals.superAdmin;
 
 
-
 //=== Check Password ===
 var checkPassword = function(password){
     var salt = 'da7b43055355d7ac362188d88330c79d';
