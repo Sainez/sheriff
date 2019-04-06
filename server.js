@@ -77,15 +77,13 @@ app.use(passport.session());
 //Static files
 app.use(express.static(path.join(__dirname, '/public')));
 
-var corsOptions = {
-  origin: '*',
-  methods: "GET,POST,DELETE",
-  allowedHeaders: "Content-Type, Authorization",
-  preflightContinue: false,
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-
-app.use(cors((corsOptions)));
+app.use(cors({
+  'allowedHeaders': ['sessionId', 'Content-Type'],
+  'exposedHeaders': ['sessionId'],
+  'origin': '*',
+  'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  'preflightContinue': false
+}));
 
 //Get all Routes
 app.get('/*', function(req, res){
