@@ -83,6 +83,8 @@ var corsOptions = {
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
 
+app.use(cors());
+
 //Get all Routes
 app.get('/*', cors(), function(req, res){
     res.sendFile(path.join(__dirname, '/public/index.html'));
