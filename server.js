@@ -78,7 +78,7 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, '/public')));
 
 var corsOptions = {
-  origin: 'https://sheriffamon.herokuapp.com',
+  origin: '*',
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: "Content-Type, Authorization",
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
