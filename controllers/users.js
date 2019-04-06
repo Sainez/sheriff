@@ -32,15 +32,13 @@ var checkPassword = function(password){
     return hash;
 };
 
-
-
-
+// set corsOption
 var corsOptions = {
   origin: '*'
 }
 
 //------------------- Clinician Registration --------------------------------------
-app.post('/regclinician', urlencodedParser, function(req, res){ 
+app.post('/regclinician', cors(corsOptions), urlencodedParser, function(req, res){ 
 
     
     ClinicianUser.findOne({ mail : req.body.mail })
@@ -131,7 +129,7 @@ app.post('/logclinician', cors(corsOptions), urlencodedParser, function(req, res
 });
 
 //----------------- Admin Registration -----------------------------//
-app.post('/regadmin', urlencodedParser, function(req, res){
+app.post('/regadmin', cors(corsOptions), urlencodedParser, function(req, res){
 
     AdminUser.findOne({ mail : req.body.mail })
     .then(user => {
@@ -154,7 +152,7 @@ app.post('/regadmin', urlencodedParser, function(req, res){
 
 
 //----------------- Admin Login -----------------------------//
-app.post('/logadmin', urlencodedParser, function( req, res, next){
+app.post('/logadmin', cors(corsOptions), urlencodedParser, function( req, res, next){
 
     
 
