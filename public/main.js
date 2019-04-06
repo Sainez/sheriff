@@ -2087,9 +2087,7 @@ var UsersService = /** @class */ (function () {
     };
     //-------------Post Clinician Login -----------------------------
     UsersService.prototype.logClinician = function (record) {
-        return this.http.post(this._url + "logclinician", record, { headers: { 'Access-Control-Allow-Origin': 'http://localhost:4200', 'Access-Control-Allow-Referer': 'http://localhost:4200/',
-                'Content-Type': 'application/x-www-form-urlencoded',
-            } });
+        return this.http.post(this._url + "logclinician", record, { headers: { 'Access-Control-Allow-Origin': '*', "Access-Control-Allow-Method": 'GET,HEAD,PUT,PATCH,POST,DELETE', "Control": "Content-Type, text/plain" } });
     };
     //-------------Post Admin Registration -----------------------------
     UsersService.prototype.regAdmin = function (record) {
