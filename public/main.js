@@ -2072,6 +2072,7 @@ var UsersService = /** @class */ (function () {
     function UsersService(http) {
         this.http = http;
         //Headers
+        this.header = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
         //--------- MAIN URL -----------------------------
         this._url = "http://127.0.0.1:8040/";
     }
@@ -2081,10 +2082,7 @@ var UsersService = /** @class */ (function () {
     };
     //-------------Post Clinician Login -----------------------------
     UsersService.prototype.logClinician = function (record) {
-        return this.http.post(this._url + "logclinician", record, { headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-                'Authorization': '{data}',
-                'Content-Type': 'application/json',
-            }), responseType: 'json' });
+        return this.http.post(this._url + "logclinician", record, { headers: this.header });
     };
     //-------------Post Admin Registration -----------------------------
     UsersService.prototype.regAdmin = function (record) {

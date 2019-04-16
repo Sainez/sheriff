@@ -46,7 +46,7 @@ app.locals = {
 };
 
 //setting cors
-app.use(cors());
+
 
 // Passport Middleware
 app.use(passport.initialize());
