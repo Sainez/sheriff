@@ -2066,35 +2066,33 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-//--------------------------------
-var httpOptions = {
-    Headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-        "Content-type": "aplication/json"
-    })
-};
 //---------------------------------
 var UsersService = /** @class */ (function () {
     //--------------------------------------------------------
     function UsersService(http) {
         this.http = http;
+        //Headers
         //--------- MAIN URL -----------------------------
         this._url = "http://127.0.0.1:8040/";
     }
     //-------------Post Clinician Registration -----------------------------
     UsersService.prototype.regClinician = function (record) {
-        return this.http.post(this._url + "regclinician", record, { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', "Access-Control-Allow-Method": 'GET,HEAD,PUT,PATCH,POST,DELETE', "Control": "Content-Type, Authorization" } });
+        return this.http.post(this._url + "regclinician", record);
     };
     //-------------Post Clinician Login -----------------------------
     UsersService.prototype.logClinician = function (record) {
-        return this.http.post(this._url + "logclinician", record, { headers: { 'Access-Control-Allow-Origin': '*', "Access-Control-Allow-Method": 'GET,HEAD,PUT,PATCH,POST,DELETE', "Control": "Content-Type, text/plain" } });
+        return this.http.post(this._url + "logclinician", record, { headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
+                'Authorization': '{data}',
+                'Content-Type': 'application/json',
+            }), responseType: 'json' });
     };
     //-------------Post Admin Registration -----------------------------
     UsersService.prototype.regAdmin = function (record) {
-        return this.http.post(this._url + "regadmin", record, { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', "Access-Control-Allow-Method": 'GET,HEAD,PUT,PATCH,POST,DELETE', "Control": "Content-Type, Authorization" } });
+        return this.http.post(this._url + "regadmin", record);
     };
     //-------------Post Clinician Login -----------------------------
     UsersService.prototype.logAdmin = function (record) {
-        return this.http.post(this._url + "logadmin", record, { headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', "Access-Control-Allow-Method": 'GET,HEAD,PUT,PATCH,POST,DELETE', "Control": "Content-Type, Authorization" } });
+        return this.http.post(this._url + "logadmin", record);
     };
     UsersService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({

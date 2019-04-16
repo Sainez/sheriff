@@ -48,14 +48,14 @@ app.locals = {
 //setting cors
 app.use(cors());
 
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Controllers
 users(app);
 files(app);
 stats(app);
-
-// Passport Middleware
-app.use(passport.initialize());
-app.use(passport.session());
 
 //Static files
 app.use(express.static(path.join(__dirname, '/public')));

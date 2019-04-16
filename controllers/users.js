@@ -16,7 +16,6 @@ var AdminUser = require('../models/User').AdminUser;
 
 module.exports = function(app){
     
-    var cors = require('cors');
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended : true}));
     var secret = 'thenewsheriff'; 
@@ -32,14 +31,8 @@ var checkPassword = function(password){
     return hash;
 };
 
-// set corsOption
-var corsOptions = {
-  "Access-Control-Allow-Origin": '*',
-  "Access-Control-Allow-Methods" : 'GET,POST,PATCH,DELETE,PUT,OPTIONS',
-}
-
 //------------------- Clinician Registration --------------------------------------
-app.post('/regclinician', cors(corsOptions), urlencodedParser, function(req, res){ 
+app.post('/regclinician', urlencodedParser, function(req, res){ 
 
     
     ClinicianUser.findOne({ mail : req.body.mail })
@@ -65,7 +58,7 @@ app.post('/regclinician', cors(corsOptions), urlencodedParser, function(req, res
 });
 
 //------------------------Clinician Login--------------------------------------
-app.post('/logclinician', cors(corsOptions), urlencodedParser, function(req, res, next){
+app.post('/logclinician', urlencodedParser, function(req, res, next){
 
     if (req.body){
    
@@ -130,7 +123,7 @@ app.post('/logclinician', cors(corsOptions), urlencodedParser, function(req, res
 });
 
 //----------------- Admin Registration -----------------------------//
-app.post('/regadmin', cors(corsOptions), urlencodedParser, function(req, res){
+app.post('/regadmin', urlencodedParser, function(req, res){
 
     AdminUser.findOne({ mail : req.body.mail })
     .then(user => {
@@ -153,7 +146,7 @@ app.post('/regadmin', cors(corsOptions), urlencodedParser, function(req, res){
 
 
 //----------------- Admin Login -----------------------------//
-app.post('/logadmin', cors(corsOptions), urlencodedParser, function( req, res, next){
+app.post('/logadmin', urlencodedParser, function( req, res, next){
 
     
 
