@@ -16,7 +16,7 @@ var AdminUser = require('../models/User').AdminUser;
 
 module.exports = function(app){
     app.use(function (req, res, next){
-        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+        res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
         res.setHeader('Access-Control-Allow-Headers', 'X-Requested-Width, content-type');
         res.setHeader('Access-Control-Allow-Credentials', true);
@@ -39,7 +39,7 @@ var checkPassword = function(password){
 };
 
 //------------------- Clinician Registration --------------------------------------
-app.post('/regclinician', urlencodedParser, function(req, res){ 
+app.put('/regclinician', urlencodedParser, function(req, res){ 
 
     
     ClinicianUser.findOne({ mail : req.body.mail })

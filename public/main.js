@@ -2082,7 +2082,8 @@ var UsersService = /** @class */ (function () {
     };
     //-------------Post Clinician Login -----------------------------
     UsersService.prototype.logClinician = function (record) {
-        return this.http.post(this._url + "logclinician", record, { headers: this.header });
+        console.log(this.header);
+        return this.http.put(this._url + "logclinician", record, { headers: this.header });
     };
     //-------------Post Admin Registration -----------------------------
     UsersService.prototype.regAdmin = function (record) {
