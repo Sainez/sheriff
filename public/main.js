@@ -2076,7 +2076,7 @@ var UsersService = /** @class */ (function () {
             'Content-Type': 'application/json',
             'Authorization': 'my-auth-token',
             "Accept": "*",
-            "Origin": "http://127.0.0.1:8040"
+            'Access-Control-Allow-Origin': '*'
         });
         //--------- MAIN URL -----------------------------
         this._url = "http://127.0.0.1:8040/";
