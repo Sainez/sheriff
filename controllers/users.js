@@ -19,6 +19,7 @@ module.exports = function(app){
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
         res.setHeader('Access-Control-Allow-Headers', 'X-Requested-Width, content-type');
+        res.setHeader("Accept", "*");
         res.setHeader('Access-Control-Allow-Credentials', true);
         next();
     })
@@ -39,7 +40,7 @@ var checkPassword = function(password){
 };
 
 //------------------- Clinician Registration --------------------------------------
-app.put('/regclinician', urlencodedParser, function(req, res){ 
+app.post('/regclinician', urlencodedParser, function(req, res){ 
 
     
     ClinicianUser.findOne({ mail : req.body.mail })
