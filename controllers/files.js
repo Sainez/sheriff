@@ -1,3 +1,4 @@
+var cors = require('cors');
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({extended: true});
 'use strict';
@@ -7,6 +8,10 @@ var crypto = require('crypto');
 // ============================================//
 
 module.exports = function(app){
+    app.use(cors({
+        "Access-Control-Allow-Origin" : "*",
+        "Content-Type" : "application/json"
+    }));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended : true}));
 
@@ -24,19 +29,19 @@ module.exports = function(app){
     var activeFOUR = app.locals.activeFOUR;
 
 //====== Admitting Patient =======
-    app.post('/admission', urlencodedParser, function(req, res){
+    app.post('/admission', cors(), urlencodedParser, function(req, res){
         req.body.patientNo = crypto.randomBytes(5).toString('hex');
         databaseONE.push(req.body);
         res.json(databaseONE); 
     });
 
 //====== Listing Admitted Patient =======
-    app.get('/admission', urlencodedParser, function(req, res){
+    app.get('/admission', cors(), urlencodedParser, function(req, res){
             res.json(databaseONE);        
     });
 
 //====== Opening PatientFile from Admission =======
-    app.post('/openadmissionfile', urlencodedParser, function(req, res){
+    app.post('/openadmissionfile', cors(), urlencodedParser, function(req, res){
         if (activeONE[0] == null ) {
       
             
@@ -62,7 +67,7 @@ module.exports = function(app){
 
 // ==== On Examination Reload =========
 
-app.delete('/examinationreload', function(req, res){
+app.delete('/examinationreload', cors(), function(req, res){
        
     activeONE = activeONE.filter(function(){
         return false;
@@ -72,7 +77,7 @@ app.delete('/examinationreload', function(req, res){
 
 //======= Delete File =========
 
-app.delete('/deletefile', function(req, res){
+app.delete('/deletefile', cors(), function(req, res){
 
     for(var i=0; i < databaseONE.length; i++){
         if (activeONE[0].patientNo == databaseONE[i].patientNo){
@@ -92,7 +97,7 @@ app.delete('/deletefile', function(req, res){
 
 //======= To Lab =========
 
-app.post('/tolab', function(req, res){
+app.post('/tolab', cors(), function(req, res){
 
     req.body.name = activeONE[0].name;
     req.body.patientNo = activeONE[0].patientNo;
@@ -121,13 +126,13 @@ app.post('/tolab', function(req, res){
 
 
 //====== Listing Lab Patients =======
-app.get('/listtolab', urlencodedParser, function(req, res){
+app.get('/listtolab', cors(), urlencodedParser, function(req, res){
     res.json(databaseTWO);        
 });
 
 
 //====== Opening lab files from Exam =======
-app.post('/openlabfile', urlencodedParser, function(req, res){
+app.post('/openlabfile', cors(), urlencodedParser, function(req, res){
     if (activeTWO[0] == null ) {
   
         
@@ -147,7 +152,7 @@ app.post('/openlabfile', urlencodedParser, function(req, res){
 
 // ==== On Lab Reload =========
 
-app.delete('/labreload', function(req, res){
+app.delete('/labreload', cors(), function(req, res){
        
     activeTWO = activeTWO.filter(function(){
         return false;
@@ -157,7 +162,7 @@ app.delete('/labreload', function(req, res){
 
 //======= From Lab To Exam =========
 
-app.post('/labtoexam', function(req, res){
+app.post('/labtoexam', cors(), function(req, res){
 
     req.body.name = activeTWO[0].name;
     req.body.patientNo = activeTWO[0].patientNo;
@@ -183,12 +188,12 @@ app.post('/labtoexam', function(req, res){
 });
 
 //====== Listing Patients from Lab =======
-app.get('/listfromlab', urlencodedParser, function(req, res){
+app.get('/listfromlab', cors(), urlencodedParser, function(req, res){
     res.json(databaseTHREE);        
 });
 
 //====== Opening files from Lab =======
-app.post('/openfilefromlab', urlencodedParser, function(req, res){
+app.post('/openfilefromlab', cors(), urlencodedParser, function(req, res){
     if (activeONE[0] == null ) {
   
         
@@ -222,7 +227,7 @@ app.post('/openfilefromlab', urlencodedParser, function(req, res){
 
 
 //======= To Xray =========
-app.post('/toxray', function(req, res){
+app.post('/toxray', cors(), function(req, res){
 
     req.body.name = activeONE[0].name;
     req.body.patientNo = activeONE[0].patientNo;
@@ -246,12 +251,12 @@ app.post('/toxray', function(req, res){
 });
 
 //====== Listing Xray Patients =======
-app.get('/listtoxray', urlencodedParser, function(req, res){
+app.get('/listtoxray', cors(), urlencodedParser, function(req, res){
     res.json(databaseFOUR);        
 });
 
 //====== Opening Xray files from Exam =======
-app.post('/openxrayfile', urlencodedParser, function(req, res){
+app.post('/openxrayfile', cors(), urlencodedParser, function(req, res){
     if (activeTHREE[0] == null ) {
   
         
@@ -272,7 +277,7 @@ app.post('/openxrayfile', urlencodedParser, function(req, res){
 
 // ==== On Xray Reload =========
 
-app.delete('/xrayreload', function(req, res){
+app.delete('/xrayreload', cors(), function(req, res){
        
     activeTHREE = activeTHREE.filter(function(){
         return false;
@@ -282,7 +287,7 @@ app.delete('/xrayreload', function(req, res){
 
 //======= From Xray To Exam =========
 
-app.post('/xraytoexam', function(req, res){
+app.post('/xraytoexam', cors(), function(req, res){
 
     req.body.name = activeTHREE[0].name;
     req.body.patientNo = activeTHREE[0].patientNo;
@@ -308,12 +313,12 @@ app.post('/xraytoexam', function(req, res){
 });
 
 //====== Listing Patients from Xray =======
-app.get('/listfromxray', urlencodedParser, function(req, res){
+app.get('/listfromxray', cors(), urlencodedParser, function(req, res){
     res.json(databaseFIVE);        
 });
 
 //====== Opening files from Xray =======
-app.post('/openfilefromxray', urlencodedParser, function(req, res){
+app.post('/openfilefromxray', cors(), urlencodedParser, function(req, res){
     if (activeONE[0] == null ) {
   
         
@@ -351,7 +356,7 @@ app.post('/openfilefromxray', urlencodedParser, function(req, res){
 
 
 //======= To pharmacy =========
-app.post('/topharmacy', function(req, res){
+app.post('/topharmacy', cors(), function(req, res){
 
     req.body.name = activeONE[0].name;
     req.body.patientNo = activeONE[0].patientNo;
@@ -377,7 +382,7 @@ app.post('/topharmacy', function(req, res){
 
 
 //======= To pharm =========
-app.post('/topharm', function(req, res){
+app.post('/topharm', cors(), function(req, res){
 
     req.body.name = activeONE[0].name;
     req.body.patientNo = activeONE[0].patientNo;
@@ -419,13 +424,13 @@ app.post('/topharm', function(req, res){
 
 
 //====== Listing Pharmacy Patients =======
-app.get('/listpharmacy', urlencodedParser, function(req, res){
+app.get('/listpharmacy', cors(), urlencodedParser, function(req, res){
     res.json(databaseSIX);        
 });
 
 
 //====== Opening Pharmacy File =======
-app.post('/openpharmacyfile', urlencodedParser, function(req, res){
+app.post('/openpharmacyfile', cors(), urlencodedParser, function(req, res){
     if (activeFOUR[0] == null ) {
   
         
@@ -446,7 +451,7 @@ app.post('/openpharmacyfile', urlencodedParser, function(req, res){
 
 // ==== On Pharmacy Reload =========
 
-app.delete('/pharmacyreload', function(req, res){
+app.delete('/pharmacyreload', cors(), function(req, res){
        
     activeFOUR = activeFOUR.filter(function(){
         return false;
@@ -456,7 +461,7 @@ app.delete('/pharmacyreload', function(req, res){
 
 //======= Save File =========
 
-app.post('/savefile', function(req, res){
+app.post('/savefile', cors(), function(req, res){
 
     for(var i=0; i < databaseSIX.length; i++){
         if (activeFOUR[0].patientNo == databaseSIX[i].patientNo){

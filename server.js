@@ -2,7 +2,6 @@ var express = require('express');
 var path = require('path');
 var mongoose = require('mongoose');
 var passport = require('passport');
-var cors = require('cors');
 var app = express();
 
 // Controlers
@@ -44,8 +43,6 @@ app.locals = {
     activeMED : [], // Open file in Med admin
     activeUSER : [], // Open User info
 };
-
-//setting cors
 
 
 // Passport Middleware

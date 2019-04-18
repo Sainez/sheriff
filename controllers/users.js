@@ -1,3 +1,4 @@
+var cors = require('cors');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var urlencodedParser = bodyParser.urlencoded({extended: true});
@@ -15,15 +16,11 @@ var AdminUser = require('../models/User').AdminUser;
 // ============================================//
 
 module.exports = function(app){
-    app.use(function (req, res, next){
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-Width, content-type');
-        res.setHeader("Accept", "*");
-        res.setHeader('Access-Control-Allow-Credentials', true);
-        next();
-    })
 
+    app.use(cors({
+        "Access-Control-Allow-Origin" : "*",
+        "Content-Type" : "application/json"
+    }));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended : true}));
     var secret = 'thenewsheriff'; 
@@ -66,7 +63,7 @@ app.post('/regclinician', urlencodedParser, function(req, res){
 });
 
 //------------------------Clinician Login--------------------------------------
-app.post('/logclinician', urlencodedParser, function(req, res, next){
+app.post('/logclinician', cors(), urlencodedParser, function(req, res, next){
 
     if (req.body){
    
@@ -131,7 +128,7 @@ app.post('/logclinician', urlencodedParser, function(req, res, next){
 });
 
 //----------------- Admin Registration -----------------------------//
-app.post('/regadmin', urlencodedParser, function(req, res){
+app.post('/regadmin', cors(), urlencodedParser, function(req, res){
 
     AdminUser.findOne({ mail : req.body.mail })
     .then(user => {
@@ -154,7 +151,7 @@ app.post('/regadmin', urlencodedParser, function(req, res){
 
 
 //----------------- Admin Login -----------------------------//
-app.post('/logadmin', urlencodedParser, function( req, res, next){
+app.post('/logadmin', cors(), urlencodedParser, function( req, res, next){
 
     
 

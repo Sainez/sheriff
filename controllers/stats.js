@@ -1,3 +1,4 @@
+var cors = require('cors');
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({extended: true});
 
@@ -10,6 +11,10 @@ var AdminUser = require('../models/User').AdminUser;
 // ============================================//
 
 module.exports = function(app){
+    app.use(cors({
+        "Access-Control-Allow-Origin" : "*",
+        "Content-Type" : "application/json"
+    }));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended : true}));
    
@@ -25,7 +30,7 @@ module.exports = function(app){
     var activeUSER = app.locals.activeUSER;
     
 // Monitor
-app.get('/monitor', urlencodedParser, function(req, res){
+app.get('/monitor', cors(), urlencodedParser, function(req, res){
     res.json({ 
                 fromAdm     : databaseONE.length,
                 toLab       : databaseTWO.length,
@@ -39,7 +44,7 @@ app.get('/monitor', urlencodedParser, function(req, res){
 
 
 // Medical Database
-app.get('/medicaldb', urlencodedParser, function(req, res){
+app.get('/medicaldb', cors(), urlencodedParser, function(req, res){
     res.json({ 
                 archivednumber  : databaseSEVEN.length,
                 archivedfiles   : databaseSEVEN
@@ -48,7 +53,7 @@ app.get('/medicaldb', urlencodedParser, function(req, res){
 
 
 //====== Opening medical file =======
-app.post('/openmedical', urlencodedParser, function(req, res){
+app.post('/openmedical', cors(), urlencodedParser, function(req, res){
         
     activeMED = activeMED.filter(function(){
         return false;
@@ -76,7 +81,7 @@ app.post('/openmedical', urlencodedParser, function(req, res){
 
 
 // Med oN reload
-app.delete('/medonreload', function(req, res){
+app.delete('/medonreload', cors(), function(req, res){
        
     activeMED = activeMED.filter(function(){
         return false;
@@ -86,7 +91,7 @@ app.delete('/medonreload', function(req, res){
 
 
 // Delete Medical
-app.delete('/deletemedical', function(req, res){
+app.delete('/deletemedical', cors(), function(req, res){
        
     for(var i=0; i < databaseSEVEN.length; i++){
         if (activeMED[0].patientNo == databaseSEVEN[i].patientNo){
@@ -111,7 +116,7 @@ app.delete('/deletemedical', function(req, res){
 //// ========================== User Stats ===================================
 
 // User Database
-app.get('/userdb', urlencodedParser, function(req, res){
+app.get('/userdb', cors(), urlencodedParser, function(req, res){
 
     ClinicianUser.find({})
     .then(cliUser => {
@@ -139,7 +144,7 @@ app.get('/userdb', urlencodedParser, function(req, res){
 
 
 //====== Opening Clinician Profile =======
-app.post('/openuserclinician', urlencodedParser, function(req, res){
+app.post('/openuserclinician', cors(), urlencodedParser, function(req, res){
         
     activeUSER = activeUSER.filter(function(){
         return false;
@@ -167,7 +172,7 @@ app.post('/openuserclinician', urlencodedParser, function(req, res){
 
 
 //====== Opening Admin Profile =======
-app.post('/openuseradmin', urlencodedParser, function(req, res){
+app.post('/openuseradmin', cors(), urlencodedParser, function(req, res){
         
     activeUSER = activeUSER.filter(function(){
         return false;
@@ -195,7 +200,7 @@ app.post('/openuseradmin', urlencodedParser, function(req, res){
 
 
 // User on reload
-app.delete('/useronreload', function(req, res){
+app.delete('/useronreload', cors(), function(req, res){
        
     activeUSER = activeUSER.filter(function(){
         return false;
@@ -205,7 +210,7 @@ app.delete('/useronreload', function(req, res){
 
 
 // Delete Clinician
-app.delete('/deleteusercli', function(req, res){
+app.delete('/deleteusercli', cors(), function(req, res){
 
     ClinicianUser.deleteOne({userNo : activeUSER[0].userNo})
         .then( data => {    
@@ -221,7 +226,7 @@ app.delete('/deleteusercli', function(req, res){
 });
 
 // delete Admin
-app.delete('/deleteuseradm', function(req, res){
+app.delete('/deleteuseradm', cors(), function(req, res){
 
     AdminUser.deleteOne({userNo : activeUSER[0].userNo})
         .then( data => {      
