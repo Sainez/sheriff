@@ -673,7 +673,7 @@ if(false) {}
 
 /***/ }),
 
-/***/ 3:
+/***/ 4:
 /*!********************************************************************************************************************************************************************!*\
   !*** multi ./src/styles.css ./node_modules/bootstrap/dist/css/bootstrap.css ./node_modules/font-awesome/css/font-awesome.css ./node_modules/ngx-toastr/toastr.css ***!
   \********************************************************************************************************************************************************************/
@@ -688,5 +688,5 @@ module.exports = __webpack_require__(/*! C:\TheCode\meanApp\kimsapp\node_modules
 
 /***/ })
 
-},[[3,"runtime"]]]);
+},[[4,"runtime"]]]);
 //# sourceMappingURL=styles.js.map

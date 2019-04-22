@@ -5,9 +5,11 @@ var urlencodedParser = bodyParser.urlencoded({extended: true});
 var crypto = require('crypto');
 
 
+
+
 // ============================================//
 
-module.exports = function(app){
+module.exports = function(app, io){
     app.use(cors({
         credentials : true
     }));
@@ -27,17 +29,19 @@ module.exports = function(app){
     var activeTHREE = app.locals.activeTHREE;
     var activeFOUR = app.locals.activeFOUR;
 
-//====== Admitting Patient =======
+    
+
+
+// Admittion Patient
     app.post('/admission', cors(), urlencodedParser, function(req, res){
         req.body.patientNo = crypto.randomBytes(5).toString('hex');
         databaseONE.push(req.body);
-        res.json(databaseONE); 
-    });
+        res.json(databaseONE);
+        io.emit('/admission', databaseONE); 
+    }); 
 
-//====== Listing Admitted Patient =======
-    app.get('/admission', cors(), urlencodedParser, function(req, res){
-            res.json(databaseONE);        
-    });
+
+
 
 //====== Opening PatientFile from Admission =======
     app.post('/openadmissionfile', cors(), urlencodedParser, function(req, res){
@@ -54,6 +58,7 @@ module.exports = function(app){
      
                     activeONE.push(req.body);             
                     res.json(activeONE);
+                    io.emit('/updateexamform', activeONE);
 
                 }
             }            
@@ -71,6 +76,10 @@ app.delete('/examinationreload', cors(), function(req, res){
     activeONE = activeONE.filter(function(){
         return false;
     });
+    io.emit('/updateexamform', activeONE);
+    io.emit('/admission', databaseONE);
+    io.emit('/listfromlab', databaseTHREE);
+    io.emit('/listfromxray', databaseFIVE);
 
 });
 
@@ -88,6 +97,8 @@ app.delete('/deletefile', cors(), function(req, res){
             });
 
             res.json(databaseONE);
+            io.emit('/updateexamform', activeONE);
+            io.emit('/admission', databaseONE);
         }
     }        
 
@@ -104,7 +115,7 @@ app.post('/tolab', cors(), function(req, res){
     req.body.gender = activeONE[0].gender;
 
     databaseTWO.push(req.body);
-    res.json(databaseTWO);
+    
 
     for(var i=0; i < databaseONE.length; i++){
         if (activeONE[0].patientNo == databaseONE[i].patientNo){
@@ -114,20 +125,18 @@ app.post('/tolab', cors(), function(req, res){
             activeONE = activeONE.filter(function(){
                 return false;
             });
+            
         }
     } 
 
+    res.json(databaseTWO);
+    io.emit('/updateexamform', activeONE);
+    io.emit('/admission', databaseONE);
+    io.emit('/listtolab', databaseTWO);
+    
+
 });
 
-
-
-
-
-
-//====== Listing Lab Patients =======
-app.get('/listtolab', cors(), urlencodedParser, function(req, res){
-    res.json(databaseTWO);        
-});
 
 
 //====== Opening lab files from Exam =======
@@ -141,6 +150,7 @@ app.post('/openlabfile', cors(), urlencodedParser, function(req, res){
  
                 activeTWO.push(databaseTWO[i]);           
                 res.json(activeTWO);
+                io.emit('/updatelabform', activeTWO);
             }
         }            
     } else{
@@ -156,6 +166,8 @@ app.delete('/labreload', cors(), function(req, res){
     activeTWO = activeTWO.filter(function(){
         return false;
     });
+    io.emit('/updatelabform', activeTWO);
+    io.emit('/listtolab', databaseTWO);
 
 });
 
@@ -171,7 +183,7 @@ app.post('/labtoexam', cors(), function(req, res){
     req.body.tests = activeTWO[0].tests;
 
     databaseTHREE.push(req.body);
-    res.json(databaseTHREE);
+    
 
     for(var i=0; i < databaseTWO.length; i++){
         if (activeTWO[0].patientNo == databaseTWO[i].patientNo){
@@ -184,12 +196,13 @@ app.post('/labtoexam', cors(), function(req, res){
         }
     } 
 
+    res.json(databaseTHREE);
+    io.emit('/listtolab', databaseTWO);
+    io.emit('/updatelabform', activeTWO);
+    io.emit('/listfromlab', databaseTHREE);
+
 });
 
-//====== Listing Patients from Lab =======
-app.get('/listfromlab', cors(), urlencodedParser, function(req, res){
-    res.json(databaseTHREE);        
-});
 
 //====== Opening files from Lab =======
 app.post('/openfilefromlab', cors(), urlencodedParser, function(req, res){
@@ -202,6 +215,7 @@ app.post('/openfilefromlab', cors(), urlencodedParser, function(req, res){
  
                 activeONE.push(databaseTHREE[i]);             
                 res.json(activeONE);
+                io.emit('/updateexamform', activeONE);
 
             }
         }            
@@ -247,11 +261,10 @@ app.post('/toxray', cors(), function(req, res){
         }
     }
 
-});
+    io.emit('/updateexamform', activeONE);
+    io.emit('/admission', databaseONE);
+    io.emit('/listtoxray', databaseFOUR);
 
-//====== Listing Xray Patients =======
-app.get('/listtoxray', cors(), urlencodedParser, function(req, res){
-    res.json(databaseFOUR);        
 });
 
 //====== Opening Xray files from Exam =======
@@ -265,6 +278,7 @@ app.post('/openxrayfile', cors(), urlencodedParser, function(req, res){
  
                 activeTHREE.push(databaseFOUR[i]);             
                 res.json(activeTHREE);
+                io.emit('/updatexrayform', activeTHREE);
 
             }
         }            
@@ -281,6 +295,8 @@ app.delete('/xrayreload', cors(), function(req, res){
     activeTHREE = activeTHREE.filter(function(){
         return false;
     });
+    io.emit('/updatexrayform', activeTHREE);
+    io.emit('/listtoxray', databaseFOUR);
 
 });
 
@@ -296,7 +312,7 @@ app.post('/xraytoexam', cors(), function(req, res){
     req.body.tests = activeTHREE[0].tests;
 
     databaseFIVE.push(req.body);
-    res.json(databaseFIVE);
+    
 
     for(var i=0; i < databaseFOUR.length; i++){
         if (activeTHREE[0].patientNo == databaseFOUR[i].patientNo){
@@ -309,12 +325,14 @@ app.post('/xraytoexam', cors(), function(req, res){
         }
     } 
 
+    res.json(databaseFIVE);
+    io.emit('/listtoxray', databaseFOUR);
+    io.emit('/updatexrayform', activeTHREE);
+    io.emit('/listfromxray', databaseFIVE);
+
 });
 
-//====== Listing Patients from Xray =======
-app.get('/listfromxray', cors(), urlencodedParser, function(req, res){
-    res.json(databaseFIVE);        
-});
+
 
 //====== Opening files from Xray =======
 app.post('/openfilefromxray', cors(), urlencodedParser, function(req, res){
@@ -327,6 +345,7 @@ app.post('/openfilefromxray', cors(), urlencodedParser, function(req, res){
  
                 activeONE.push(databaseFIVE[i]);             
                 res.json(activeONE);
+                io.emit('/updateexamform', activeONE);
 
             }
         }            
@@ -363,7 +382,7 @@ app.post('/topharmacy', cors(), function(req, res){
     req.body.gender = activeONE[0].gender;
 
     databaseSIX.push(req.body);
-    res.json(databaseSIX);
+    
 
     for(var i=0; i < databaseONE.length; i++){
         if (activeONE[0].patientNo == databaseONE[i].patientNo){
@@ -375,6 +394,11 @@ app.post('/topharmacy', cors(), function(req, res){
             });
         }
     }
+
+    res.json(databaseSIX);
+    io.emit('/updateexamform', activeONE);
+    io.emit('/admission', databaseONE);
+    io.emit('/listpharmacy', databaseSIX);
 
           
 });
@@ -393,6 +417,7 @@ app.post('/topharm', cors(), function(req, res){
 
     databaseSIX.push(req.body);
     res.json(databaseSIX);
+    io.emit('/listpharmacy', databaseSIX);
     
 
     for(var i=0; i < databaseTHREE.length; i++){
@@ -403,6 +428,9 @@ app.post('/topharm', cors(), function(req, res){
             activeONE = activeONE.filter(function(){
                 return false;
             });
+            io.emit('/listfromlab', databaseTHREE);
+            io.emit('/updateexamform', activeONE);
+            
         }
     }
 
@@ -415,16 +443,13 @@ app.post('/topharm', cors(), function(req, res){
             activeONE = activeONE.filter(function(){
                 return false;
             });
+            io.emit('/listfromxray', databaseFIVE);
+            io.emit('/updateexamform', activeONE);
         }
     }
+
+    
           
-});
-
-
-
-//====== Listing Pharmacy Patients =======
-app.get('/listpharmacy', cors(), urlencodedParser, function(req, res){
-    res.json(databaseSIX);        
 });
 
 
@@ -439,6 +464,7 @@ app.post('/openpharmacyfile', cors(), urlencodedParser, function(req, res){
  
                 activeFOUR.push(databaseSIX[i]);             
                 res.json(activeFOUR);
+                io.emit('/updatepharmacyform', activeFOUR);
 
             }
         }            
@@ -455,6 +481,8 @@ app.delete('/pharmacyreload', cors(), function(req, res){
     activeFOUR = activeFOUR.filter(function(){
         return false;
     });
+    io.emit('/updatepharmacyform', activeFOUR);
+    io.emit('/listpharmacy', databaseSIX);
 
 });
 
@@ -482,6 +510,8 @@ app.post('/savefile', cors(), function(req, res){
             });
 
             res.json(databaseSEVEN);
+            io.emit('/updatepharmacyform', activeFOUR);
+            io.emit('/listpharmacy', databaseSIX);
         }
     } 
 

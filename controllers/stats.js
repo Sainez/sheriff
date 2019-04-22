@@ -10,7 +10,7 @@ var AdminUser = require('../models/User').AdminUser;
 
 // ============================================//
 
-module.exports = function(app){
+module.exports = function(app, io){
     app.use(cors({
         credentials : true
     }));
@@ -29,27 +29,36 @@ module.exports = function(app){
     var activeUSER = app.locals.activeUSER;
     
 // Monitor
-app.get('/monitor', cors(), urlencodedParser, function(req, res){
-    res.json({ 
-                fromAdm     : databaseONE.length,
-                toLab       : databaseTWO.length,
-                fromLab     : databaseTHREE.length,
-                toXray      : databaseFOUR.length,
-                fromXray    : databaseFIVE.length,
-                toPharmacy  : databaseSIX.length,
-                archived    : databaseSEVEN.length
-    });        
-});
+
+setInterval(() =>{
+
+    io.emit('/monitor',{
+        fromAdm     : databaseONE.length,
+        toLab       : databaseTWO.length,
+        fromLab     : databaseTHREE.length,
+        toXray      : databaseFOUR.length,
+        fromXray    : databaseFIVE.length,
+        toPharmacy  : databaseSIX.length,
+        archived    : databaseSEVEN.length
+    });
+
+}, 1000);
+
+
+
+
+    
 
 
 // Medical Database
-app.get('/medicaldb', cors(), urlencodedParser, function(req, res){
-    res.json({ 
-                archivednumber  : databaseSEVEN.length,
-                archivedfiles   : databaseSEVEN
-    });        
-});
+setInterval(() =>{
 
+    io.emit('/medicaldb',{
+        archivednumber  : databaseSEVEN.length,
+        archivedfiles   : databaseSEVEN
+    });
+
+}, 1000);
 
 //====== Opening medical file =======
 app.post('/openmedical', cors(), urlencodedParser, function(req, res){
@@ -115,7 +124,8 @@ app.delete('/deletemedical', cors(), function(req, res){
 //// ========================== User Stats ===================================
 
 // User Database
-app.get('/userdb', cors(), urlencodedParser, function(req, res){
+
+setInterval(() =>{
 
     ClinicianUser.find({})
     .then(cliUser => {
@@ -123,7 +133,7 @@ app.get('/userdb', cors(), urlencodedParser, function(req, res){
         AdminUser.find({})
         .then(admUser =>{
 
-            res.json({ 
+            io.emit('/userdb',{
                 clinician           : cliUser.length,
                 admin               : admUser.length,
                 clinicianprofiles   : cliUser,
@@ -138,8 +148,13 @@ app.get('/userdb', cors(), urlencodedParser, function(req, res){
 
 
 
-    
-});
+}, 1000);   
+
+
+
+
+
+
 
 
 //====== Opening Clinician Profile =======

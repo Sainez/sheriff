@@ -3453,7 +3453,7 @@ var AdminComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n\n    <form id=\"home_form\" class=\"col-sm-12 col-md-6 mx-auto rounded \">\n\n        <h1>Home Page</h1>\n        <h4>Choose Section</h4>\n\n        <ul>\n            <li><a href=\"/kimsapp/admin/monitor\">Monitor</a></li>\n            <li><a href=\"/kimsapp/admin/medicalDb\">Medical Records</a></li>\n            <li><a href=\"/kimsapp/admin/userDb\">Users</a></li>\n            <li><a href=\"/kimsapp/admin/register\">Register</a></li>\n            \n        </ul>\n\n    </form>\n\n</div>"
+module.exports = "<div class=\"container\">\n\n    <form id=\"home_form\" class=\"col-sm-12 col-md-6 mx-auto rounded \">\n\n        <h1>Home Page</h1>\n        <h4>Choose Section</h4>\n\n        <ul>\n            <li><a (click)='Monitor()'>Monitor</a></li>\n            <li><a (click)='mRecords()'>Medical Records</a></li>\n            <li><a (click)='Users()'>Users</a></li>\n            <li><a href=\"/kimsapp/admin/register\">Register</a></li>\n            \n        </ul>\n\n    </form>\n\n</div>"
 
 /***/ }),
 
@@ -3480,12 +3480,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AhomeComponent", function() { return AhomeComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
 
 
 var AhomeComponent = /** @class */ (function () {
-    function AhomeComponent() {
+    function AhomeComponent(router) {
+        this.router = router;
     }
     AhomeComponent.prototype.ngOnInit = function () {
+    };
+    AhomeComponent.prototype.Monitor = function () {
+        this.router.navigate(["/kimsapp/admin/monitor"]);
+    };
+    AhomeComponent.prototype.mRecords = function () {
+        this.router.navigate(["/kimsapp/admin/medicalDb"]);
+    };
+    AhomeComponent.prototype.Users = function () {
+        this.router.navigate(["/kimsapp/admin/userDb"]);
     };
     AhomeComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -3493,7 +3505,7 @@ var AhomeComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./ahome.component.html */ "./src/app/admin/ahome/ahome.component.html"),
             styles: [__webpack_require__(/*! ./ahome.component.scss */ "./src/app/admin/ahome/ahome.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
     ], AhomeComponent);
     return AhomeComponent;
 }());
@@ -3582,9 +3594,7 @@ var FiledbComponent = /** @class */ (function () {
         var _this = this;
         this.statsService.deleteMED().subscribe(function (data) {
             _this.notifyService.showSuccess("File deleted!", "Success");
-            setTimeout(function () {
-                location.reload();
-            }, 2000);
+            _this.hideform = true;
         }, function (error) { console.error("Error", error); });
     };
     ;
@@ -3681,7 +3691,7 @@ var MonitorComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n<!--------------------------------------------------------------------------------------------------------------->\n  <section>\n\n    <ul class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\"><a id=\"reg1\">Clinician Registration From</a></li>\n      <li class=\"breadcrumb-item\"><a id=\"reg2\">Admin Registration Form</a></li>\n    </ul>\n\n  </section>\n\n\n<!-------------- CLINICIAN REGISTRATION FORM ------------------------------------------------------------------------->\n\n    <form id=\"reg_cli_form\" class=\"form col-sm-12 col-md-6 mx-auto rounded \"\n    #reg_cli_form=\"ngForm\"\n    (submit)=\"registerClinician()\"\n    \n    >\n\n        <h1>Register Clinician</h1>\n        \n        <hr>\n        \n        \n\n        <input id=\"cliFirstname\" type=\"text\" class=\"form-control form-control-sm rounded\" [(ngModel)]=\"regCli.firstName\"\n        name=\"firstName\" #firstName=\"ngModel\"\n        [class.is-invalid]=\"firstName.invalid && firstName.touched\"  \n        placeholder=\"Firstname\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"firstName.valid || firstName.untouched\">FirstName is Required</small>\n        \n\n\n\n        <input id=\"cliSurname\" type=\"text\" class=\"form-control form-control-sm rounded\"\n         [(ngModel)]=\"regCli.surname\" name=\"surname\"\n         #surname=\"ngModel\"\n          [class.is-invalid]=\"surname.invalid && surname.touched\" \n         placeholder=\"Surname\" required>\n         <small class=\"text-danger ml-2\" [class.d-none]=\"surname.valid || surname.untouched\">Surname is Required</small>\n        \n        \n        <input id=\"cliLastname\" type=\"text\" class=\"form-control form-control-sm rounded\" \n        #lastName=\"ngModel\"\n          [class.is-invalid]=\"lastName.invalid && lastName.touched\"\n        [(ngModel)]=\"regCli.lastName\" name=\"lastName\" placeholder=\"Lastname\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"lastName.valid || lastName.untouched\">LastName is Required</small>\n\n        <br><br>\n\n\n\n        \n        \n        <input id=\"cliNationalId\" type=\"text\" class=\"form-control form-control-sm rounded\" \n        [(ngModel)]=\"regCli.nationalId\" name=\"nationalId\" \n        #nationalId=\"ngModel\"\n          [class.is-invalid]=\"nationalId.invalid && nationalId.touched\"\n        placeholder=\"National Id No.\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"nationalId.valid || nationalId.untouched\">National Id is Required</small>\n\n        <br><br>\n\n\n \n        <label class=\"text-info mt-2\">Gender</label> <br>\n        <label class=\"text-info\">Male</label>\n        <input id=\"cliMale\" type=\"radio\" [(ngModel)]=\"regCli.gender\" name=\"gender\" value=\"male\"  required> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;\n        <label class=\"text-info\">Female</label>\n        <input id=\"cliFemale\" type=\"radio\" [(ngModel)]=\"regCli.gender\" name=\"gender\" value=\"female\" required> <br> <br>\n\n\n\n      \n\n       \n         \n\n\n        \n        <input id=\"cliphone\" type=\"tel\" class=\"form-control form-control-sm rounded\"\n         [(ngModel)]=\"regCli.phone\" name=\"phone\" \n         #phone=\"ngModel\"\n          [class.is-invalid]=\"phone.invalid && phone.touched\"\n         placeholder=\"phone\" required>\n         <small class=\"text-danger ml-2\" [class.d-none]=\"phone.valid || phone.untouched\">Phone is Required</small>\n\n         <br><br>\n\n\n\n\n\n\n        \n\n        <select id=\"cliSpecialize\" class=\"form-control form-control-sm rounded\" \n        [(ngModel)]=\"regCli.specialize\" name=\"specialize\"\n        #specialize=\"ngModel\"\n          [class.is-invalid]=\"specialize.invalid && specialize.touched\"\n         required>\n\n\n\n          <option value=\"\" disabled selected hidden >Select Specialization</option>\n          <option value=\"Records Tech\">Records Tech</option>\n          <option value=\"Clinical Officer\">Clinical Office</option>\n          <option value=\"Lab Tech\">Lab Tech</option>\n          <option value=\"Xray Tech\">Xray Tech</option>\n          <option value=\"Pharmacist Tech\">Pharmacist Tech</option>\n\n\n        </select>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"specialize.valid || specialize.untouched\">Specialization is Required</small>\n\n         <br><br>\n\n        \n        <input id=\"cliProfNo\" type=\"tel\" class=\"form-control form-control-sm rounded\" \n        [(ngModel)]=\"regCli.profNo\" name=\"profNo\" \n        #profNo=\"ngModel\"\n          [class.is-invalid]=\"profNo.invalid && profNo.touched\"\n        placeholder=\"Profession No\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"profNo.valid || profNo.untouched\">Profession Number is Required</small>\n\n        <br><br>\n\n        <hr>\n\n        \n        <input id=\"climail\" type=\"email\" class=\"form-control form-control-sm rounded\"\n         [(ngModel)]=\"regCli.mail\" name=\"mail\" \n         #mail=\"ngModel\"\n         pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$\"\n          [class.is-invalid]=\"mail.invalid && mail.touched\"\n         placeholder=\"Email\" required> \n        \n          <div *ngIf=\"mail.errors && (mail.invalid && mail.touched)\">\n              <small class=\"text-danger ml-2\" *ngIf=\"mail.errors.required\">Email is Required</small>\n              <small class=\"text-danger ml-2\" *ngIf=\"mail.errors.pattern\">Email should be in this format \"job@gmail.com\"</small>\n          </div>\n\n         <br><br>\n\n\n\n\n        \n\n\n        <input id=\"clipassword\" type=\"password\" class=\"form-control form-control-sm rounded\"\n         [(ngModel)]=\"regCli.password\" name=\"password\"\n         #password=\"ngModel\"\n         pattern=\"(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$\"\n          [class.is-invalid]=\"password.invalid && password.touched\"\n         placeholder=\"Password\" required>\n\n         <div *ngIf=\"password.errors && (password.invalid && password.touched)\">\n            <small class=\"text-danger ml-2\" *ngIf=\"password.errors.required\">Password is Required</small>\n            <small class=\"text-danger ml-2\" *ngIf=\"password.errors.pattern\">Password ( UpperCase, LowerCase, Number/SpecialChar and min of 8 Chars )</small>\n        </div>\n      \n\n         <br><br>\n\n\n\n\n\n\n\n        <button id=\"btn_cli\" type=\"submit\"  class=\"btn btn-success m-3\" [disabled]=\"!reg_cli_form.valid\" > Submit </button>\n        \n\n\n\n\n    </form>\n\n\n    <!------------ ADMIN REGISTRATION FORM -------------------------------------------------------------------------------->\n\n\n\n    <form id=\"reg_adm_form\" class=\"form col-sm-12 col-md-6 mx-auto rounded \"\n    #reg_adm_form=\"ngForm\"\n    (submit)=\"registerAdmin()\"\n    >\n\n        <h1>Register Admin</h1>\n        \n        <hr>\n        \n        \n        <input id=\"adminFirstname\" type=\"text\" class=\"form-control form-control-sm rounded\"\n        #adminFirstname=\"ngModel\"\n        [class.is-invalid]=\"adminFirstname.invalid && adminFirstname.touched\"\n        [(ngModel)]=\"regAdm.firstName\" name=\"firstName\" placeholder=\"Firstname\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"adminFirstname.valid || adminFirstname.untouched\">FirstName is Required</small>\n        \n\n\n        \n        <input id=\"adminSurname\" type=\"text\" class=\"form-control form-control-sm rounded\"\n        #adminSurname=\"ngModel\"\n        [class.is-invalid]=\"adminSurname.invalid && adminSurname.touched\"\n        [(ngModel)]=\"regAdm.surname\" name=\"surname\" placeholder=\"Surname\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"adminSurname.valid || adminSurname.untouched\">Surname is Required</small>\n        \n        \n        <input id=\"adminLastname\" type=\"text\" class=\"form-control form-control-sm rounded\"\n        #adminLastname=\"ngModel\"\n        [class.is-invalid]=\"adminLastname.invalid && adminLastname.touched\"\n        [(ngModel)]=\"regAdm.lastName\" name=\"lastName\" placeholder=\"Lastname\" required> \n        <small class=\"text-danger ml-2\" [class.d-none]=\"adminLastname.valid || adminLastname.untouched\">LastName is Required</small>\n        \n        <br><br>\n        \n      \n        <input id=\"admNationalId\" type=\"text\" class=\"form-control form-control-sm rounded\" \n        #admNationalId=\"ngModel\"\n        [class.is-invalid]=\"admNationalId.invalid && admNationalId.touched\"\n        [(ngModel)]=\"regAdm.nationalId\" name=\"nationalId\" placeholder=\"National Id No\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"admNationalId.valid || admNationalId.untouched\">National Id is Required</small>\n        \n        <br><br>\n\n\n\n        <label class=\"text-info mt-2\">Gender</label> <br>\n        <label class=\"text-info\">Male</label>\n        <input id=\"adminMale\" type=\"radio\" [(ngModel)]=\"regAdm.gender\" name=\"gender\" value=\"male\"  required> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;\n        <label class=\"text-info\">Female</label>\n        <input id=\"adminFemale\" type=\"radio\" [(ngModel)]=\"regAdm.gender\" name=\"gender\" value=\"female\" required> <br> <br>\n        \n\n\n\n     \n        \n\n      \n        <input id=\"admphone\" type=\"tel\" class=\"form-control form-control-sm rounded\" \n        #admphone=\"ngModel\"\n        [class.is-invalid]=\"admphone.invalid && admphone.touched\"\n        [(ngModel)]=\"regAdm.phone\" name=\"phone\" placeholder=\"phone\" required> \n        <small class=\"text-danger ml-2\" [class.d-none]=\"admphone.valid || admphone.untouched\">Phone Number is Required</small>\n        \n        <br><br>\n\n\n\n\n   \n        <select id=\"admDept\" class=\"form-control form-control-sm rounded\" \n        #admDept=\"ngModel\"\n        [class.is-invalid]=\"admDept.invalid && admDept.touched\"\n        [(ngModel)]=\"regAdm.department\" name=\"department\" required>\n        \n          <option value=\"\" disabled selected hidden>Select Department.</option>\n          <option value=\"medical\">Medical</option>\n          <option value=\"administrative\">Administrative</option>\n        \n        </select>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"admDept.valid || admDept.untouched\">Department is Required</small>\n        \n        <br><br>\n\n\n\n\n\n     \n        <input id=\"admOfficeNo\" type=\"tel\" class=\"form-control form-control-sm rounded\"\n        #admOfficeNo=\"ngModel\"\n        [class.is-invalid]=\"admOfficeNo.invalid && admOfficeNo.touched\"\n        [(ngModel)]=\"regAdm.officeNo\" name=\"officeNo\" placeholder=\"Office Number\" required> \n        <small class=\"text-danger ml-2\" [class.d-none]=\"admOfficeNo.valid || admOfficeNo.untouched\">Office Number is Required</small>\n        \n        <br><br>\n\n\n\n\n        <hr>\n\n     \n\n        <input id=\"admmail\" type=\"email\" class=\"form-control form-control-sm rounded\" \n        #admmail=\"ngModel\"\n        pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$\"\n        [class.is-invalid]=\"admmail.invalid && admmail.touched\"\n        [(ngModel)]=\"regAdm.mail\" name=\"mail\" placeholder=\"Email\" required> \n        <div *ngIf=\"admmail.errors && (admmail.invalid && admmail.touched)\">\n            <small class=\"text-danger ml-2\" *ngIf=\"admmail.errors.required\">Email is Required</small>\n            <small class=\"text-danger ml-2\" *ngIf=\"admmail.errors.pattern\">Email should be in this format \"job@gmail.com\"</small>\n        </div>\n        <br><br>\n\n\n\n     \n        <input id=\"admpassword\" type=\"password\" class=\"form-control form-control-sm rounded\" \n        #admpassword=\"ngModel\"\n        pattern=\"(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$\"\n        [class.is-invalid]=\"admpassword.invalid && admpassword.touched\"\n        [(ngModel)]=\"regAdm.password\" name=\"password\" placeholder=\"Password\" required>\n\n        <div *ngIf=\"admpassword.errors && (admpassword.invalid && admpassword.touched)\">\n            <small class=\"text-danger ml-2\" *ngIf=\"admpassword.errors.required\">Password is Required</small>\n            <small class=\"text-danger ml-2\" *ngIf=\"admpassword.errors.pattern\">Password ( UpperCase, LowerCase, Number/SpecialChar and min of 8 Chars )</small>\n        </div>\n\n\n        <br><br>\n\n        <button id=\"btn_admin\" type=\"submit\" [disabled]=\"!reg_adm_form.valid\" class=\"btn btn-success m-3\"  > Submit </button>\n        \n\n    </form>\n\n\n  \n\n</div>"
+module.exports = "<div class=\"container\">\n<!--------------------------------------------------------------------------------------------------------------->\n  <section>\n\n    <ul class=\"breadcrumb\">\n      <li class=\"breadcrumb-item\"><a id=\"reg1\">Clinician Registration From</a></li>\n      <li class=\"breadcrumb-item\"><a id=\"reg2\">Admin Registration Form</a></li>\n    </ul>\n\n  </section>\n\n\n<!-------------- CLINICIAN REGISTRATION FORM ------------------------------------------------------------------------->\n\n    <form id=\"reg_cli_form\" class=\"form col-sm-12 col-md-6 mx-auto rounded \"\n    #reg_cli_form=\"ngForm\"\n    (submit)=\"registerClinician(); reg_cli_form.reset()\"\n    \n    >\n\n        <h1>Register Clinician</h1>\n        \n        <hr>\n        \n        \n\n        <input id=\"cliFirstname\" type=\"text\" class=\"form-control form-control-sm rounded\" [(ngModel)]=\"regCli.firstName\"\n        name=\"firstName\" #firstName=\"ngModel\"\n        [class.is-invalid]=\"firstName.invalid && firstName.touched\"  \n        placeholder=\"Firstname\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"firstName.valid || firstName.untouched\">FirstName is Required</small>\n        \n\n\n\n        <input id=\"cliSurname\" type=\"text\" class=\"form-control form-control-sm rounded\"\n         [(ngModel)]=\"regCli.surname\" name=\"surname\"\n         #surname=\"ngModel\"\n          [class.is-invalid]=\"surname.invalid && surname.touched\" \n         placeholder=\"Surname\" required>\n         <small class=\"text-danger ml-2\" [class.d-none]=\"surname.valid || surname.untouched\">Surname is Required</small>\n        \n        \n        <input id=\"cliLastname\" type=\"text\" class=\"form-control form-control-sm rounded\" \n        #lastName=\"ngModel\"\n          [class.is-invalid]=\"lastName.invalid && lastName.touched\"\n        [(ngModel)]=\"regCli.lastName\" name=\"lastName\" placeholder=\"Lastname\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"lastName.valid || lastName.untouched\">LastName is Required</small>\n\n        <br><br>\n\n\n\n        \n        \n        <input id=\"cliNationalId\" type=\"text\" class=\"form-control form-control-sm rounded\" \n        [(ngModel)]=\"regCli.nationalId\" name=\"nationalId\" \n        #nationalId=\"ngModel\"\n          [class.is-invalid]=\"nationalId.invalid && nationalId.touched\"\n        placeholder=\"National Id No.\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"nationalId.valid || nationalId.untouched\">National Id is Required</small>\n\n        <br><br>\n\n\n \n        <label class=\"text-info mt-2\">Gender</label> <br>\n        <label class=\"text-info\">Male</label>\n        <input id=\"cliMale\" type=\"radio\" [(ngModel)]=\"regCli.gender\" name=\"gender\" value=\"male\"  required> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;\n        <label class=\"text-info\">Female</label>\n        <input id=\"cliFemale\" type=\"radio\" [(ngModel)]=\"regCli.gender\" name=\"gender\" value=\"female\" required> <br> <br>\n\n\n\n      \n\n       \n         \n\n\n        \n        <input id=\"cliphone\" type=\"tel\" class=\"form-control form-control-sm rounded\"\n         [(ngModel)]=\"regCli.phone\" name=\"phone\" \n         #phone=\"ngModel\"\n          [class.is-invalid]=\"phone.invalid && phone.touched\"\n         placeholder=\"phone\" required>\n         <small class=\"text-danger ml-2\" [class.d-none]=\"phone.valid || phone.untouched\">Phone is Required</small>\n\n         <br><br>\n\n\n\n\n\n\n        \n\n        <select id=\"cliSpecialize\" class=\"form-control form-control-sm rounded\" \n        [(ngModel)]=\"regCli.specialize\" name=\"specialize\"\n        #specialize=\"ngModel\"\n          [class.is-invalid]=\"specialize.invalid && specialize.touched\"\n         required>\n\n\n\n          <option value=\"\" disabled selected hidden >Select Specialization</option>\n          <option value=\"Records Tech\">Records Tech</option>\n          <option value=\"Clinical Officer\">Clinical Office</option>\n          <option value=\"Lab Tech\">Lab Tech</option>\n          <option value=\"Xray Tech\">Xray Tech</option>\n          <option value=\"Pharmacist Tech\">Pharmacist Tech</option>\n\n\n        </select>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"specialize.valid || specialize.untouched\">Specialization is Required</small>\n\n         <br><br>\n\n        \n        <input id=\"cliProfNo\" type=\"tel\" class=\"form-control form-control-sm rounded\" \n        [(ngModel)]=\"regCli.profNo\" name=\"profNo\" \n        #profNo=\"ngModel\"\n          [class.is-invalid]=\"profNo.invalid && profNo.touched\"\n        placeholder=\"Profession No\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"profNo.valid || profNo.untouched\">Profession Number is Required</small>\n\n        <br><br>\n\n        <hr>\n\n        \n        <input id=\"climail\" type=\"email\" class=\"form-control form-control-sm rounded\"\n         [(ngModel)]=\"regCli.mail\" name=\"mail\" \n         #mail=\"ngModel\"\n         pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$\"\n          [class.is-invalid]=\"mail.invalid && mail.touched\"\n         placeholder=\"Email\" required> \n        \n          <div *ngIf=\"mail.errors && (mail.invalid && mail.touched)\">\n              <small class=\"text-danger ml-2\" *ngIf=\"mail.errors.required\">Email is Required</small>\n              <small class=\"text-danger ml-2\" *ngIf=\"mail.errors.pattern\">Email should be in this format \"job@gmail.com\"</small>\n          </div>\n\n         <br><br>\n\n\n\n\n        \n\n\n        <input id=\"clipassword\" type=\"password\" class=\"form-control form-control-sm rounded\"\n         [(ngModel)]=\"regCli.password\" name=\"password\"\n         #password=\"ngModel\"\n         pattern=\"(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$\"\n          [class.is-invalid]=\"password.invalid && password.touched\"\n         placeholder=\"Password\" required>\n\n         <div *ngIf=\"password.errors && (password.invalid && password.touched)\">\n            <small class=\"text-danger ml-2\" *ngIf=\"password.errors.required\">Password is Required</small>\n            <small class=\"text-danger ml-2\" *ngIf=\"password.errors.pattern\">Password ( UpperCase, LowerCase, Number/SpecialChar and min of 8 Chars )</small>\n        </div>\n      \n\n         <br><br>\n\n\n\n\n\n\n\n        <button id=\"btn_cli\" type=\"submit\"  class=\"btn btn-success m-3\" [disabled]=\"!reg_cli_form.valid\" > Submit </button>\n        \n\n\n\n\n    </form>\n\n\n    <!------------ ADMIN REGISTRATION FORM -------------------------------------------------------------------------------->\n\n\n\n    <form id=\"reg_adm_form\" class=\"form col-sm-12 col-md-6 mx-auto rounded \"\n    #reg_adm_form=\"ngForm\"\n    (submit)=\"registerAdmin(); reg_adm_form.reset()\"\n    >\n\n        <h1>Register Admin</h1>\n        \n        <hr>\n        \n        \n        <input id=\"adminFirstname\" type=\"text\" class=\"form-control form-control-sm rounded\"\n        #adminFirstname=\"ngModel\"\n        [class.is-invalid]=\"adminFirstname.invalid && adminFirstname.touched\"\n        [(ngModel)]=\"regAdm.firstName\" name=\"firstName\" placeholder=\"Firstname\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"adminFirstname.valid || adminFirstname.untouched\">FirstName is Required</small>\n        \n\n\n        \n        <input id=\"adminSurname\" type=\"text\" class=\"form-control form-control-sm rounded\"\n        #adminSurname=\"ngModel\"\n        [class.is-invalid]=\"adminSurname.invalid && adminSurname.touched\"\n        [(ngModel)]=\"regAdm.surname\" name=\"surname\" placeholder=\"Surname\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"adminSurname.valid || adminSurname.untouched\">Surname is Required</small>\n        \n        \n        <input id=\"adminLastname\" type=\"text\" class=\"form-control form-control-sm rounded\"\n        #adminLastname=\"ngModel\"\n        [class.is-invalid]=\"adminLastname.invalid && adminLastname.touched\"\n        [(ngModel)]=\"regAdm.lastName\" name=\"lastName\" placeholder=\"Lastname\" required> \n        <small class=\"text-danger ml-2\" [class.d-none]=\"adminLastname.valid || adminLastname.untouched\">LastName is Required</small>\n        \n        <br><br>\n        \n      \n        <input id=\"admNationalId\" type=\"text\" class=\"form-control form-control-sm rounded\" \n        #admNationalId=\"ngModel\"\n        [class.is-invalid]=\"admNationalId.invalid && admNationalId.touched\"\n        [(ngModel)]=\"regAdm.nationalId\" name=\"nationalId\" placeholder=\"National Id No\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"admNationalId.valid || admNationalId.untouched\">National Id is Required</small>\n        \n        <br><br>\n\n\n\n        <label class=\"text-info mt-2\">Gender</label> <br>\n        <label class=\"text-info\">Male</label>\n        <input id=\"adminMale\" type=\"radio\" [(ngModel)]=\"regAdm.gender\" name=\"gender\" value=\"male\"  required> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;\n        <label class=\"text-info\">Female</label>\n        <input id=\"adminFemale\" type=\"radio\" [(ngModel)]=\"regAdm.gender\" name=\"gender\" value=\"female\" required> <br> <br>\n        \n\n\n\n     \n        \n\n      \n        <input id=\"admphone\" type=\"tel\" class=\"form-control form-control-sm rounded\" \n        #admphone=\"ngModel\"\n        [class.is-invalid]=\"admphone.invalid && admphone.touched\"\n        [(ngModel)]=\"regAdm.phone\" name=\"phone\" placeholder=\"phone\" required> \n        <small class=\"text-danger ml-2\" [class.d-none]=\"admphone.valid || admphone.untouched\">Phone Number is Required</small>\n        \n        <br><br>\n\n\n\n\n   \n        <select id=\"admDept\" class=\"form-control form-control-sm rounded\" \n        #admDept=\"ngModel\"\n        [class.is-invalid]=\"admDept.invalid && admDept.touched\"\n        [(ngModel)]=\"regAdm.department\" name=\"department\" required>\n        \n          <option value=\"\" disabled selected hidden>Select Department.</option>\n          <option value=\"medical\">Medical</option>\n          <option value=\"administrative\">Administrative</option>\n        \n        </select>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"admDept.valid || admDept.untouched\">Department is Required</small>\n        \n        <br><br>\n\n\n\n\n\n     \n        <input id=\"admOfficeNo\" type=\"tel\" class=\"form-control form-control-sm rounded\"\n        #admOfficeNo=\"ngModel\"\n        [class.is-invalid]=\"admOfficeNo.invalid && admOfficeNo.touched\"\n        [(ngModel)]=\"regAdm.officeNo\" name=\"officeNo\" placeholder=\"Office Number\" required> \n        <small class=\"text-danger ml-2\" [class.d-none]=\"admOfficeNo.valid || admOfficeNo.untouched\">Office Number is Required</small>\n        \n        <br><br>\n\n\n\n\n        <hr>\n\n     \n\n        <input id=\"admmail\" type=\"email\" class=\"form-control form-control-sm rounded\" \n        #admmail=\"ngModel\"\n        pattern=\"[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$\"\n        [class.is-invalid]=\"admmail.invalid && admmail.touched\"\n        [(ngModel)]=\"regAdm.mail\" name=\"mail\" placeholder=\"Email\" required> \n        <div *ngIf=\"admmail.errors && (admmail.invalid && admmail.touched)\">\n            <small class=\"text-danger ml-2\" *ngIf=\"admmail.errors.required\">Email is Required</small>\n            <small class=\"text-danger ml-2\" *ngIf=\"admmail.errors.pattern\">Email should be in this format \"job@gmail.com\"</small>\n        </div>\n        <br><br>\n\n\n\n     \n        <input id=\"admpassword\" type=\"password\" class=\"form-control form-control-sm rounded\" \n        #admpassword=\"ngModel\"\n        pattern=\"(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$\"\n        [class.is-invalid]=\"admpassword.invalid && admpassword.touched\"\n        [(ngModel)]=\"regAdm.password\" name=\"password\" placeholder=\"Password\" required>\n\n        <div *ngIf=\"admpassword.errors && (admpassword.invalid && admpassword.touched)\">\n            <small class=\"text-danger ml-2\" *ngIf=\"admpassword.errors.required\">Password is Required</small>\n            <small class=\"text-danger ml-2\" *ngIf=\"admpassword.errors.pattern\">Password ( UpperCase, LowerCase, Number/SpecialChar and min of 8 Chars )</small>\n        </div>\n\n\n        <br><br>\n\n        <button id=\"btn_admin\" type=\"submit\" [disabled]=\"!reg_adm_form.valid\" class=\"btn btn-success m-3\"  > Submit </button>\n        \n\n    </form>\n\n\n  \n\n</div>"
 
 /***/ }),
 
@@ -3734,13 +3744,8 @@ var RegisterComponent = /** @class */ (function () {
     //------------ Clinician Registration ---------------------- 
     RegisterComponent.prototype.registerClinician = function () {
         var _this = this;
-        this.usersService.regClinician(this.regCli).subscribe(function (data) {
-            _this.notifyService.showSuccess("Clinician User Added", "Successfull !!");
-            setTimeout(function () {
-                location.reload();
-            }, 2000);
-        }, function (error) {
-            _this.notifyService.showError("Could not Register", "Failed !!");
+        this.usersService.regClinician(this.regCli).subscribe(function (data) { _this.notifyService.showSuccess("Clinician User Added", "Successfull !!"); }, function (error) {
+            _this.notifyService.showError(error.error, "Failed !!");
             console.error("Error", error);
         });
     };
@@ -3748,13 +3753,8 @@ var RegisterComponent = /** @class */ (function () {
     //------------ Admin Registration ---------------------- 
     RegisterComponent.prototype.registerAdmin = function () {
         var _this = this;
-        this.usersService.regAdmin(this.regAdm).subscribe(function (data) {
-            _this.notifyService.showSuccess("Admin User Added", "Successfull !!");
-            setTimeout(function () {
-                location.reload();
-            }, 2000);
-        }, function (error) {
-            _this.notifyService.showError("Could not Register", "Failed !!");
+        this.usersService.regAdmin(this.regAdm).subscribe(function (data) { _this.notifyService.showSuccess("Admin User Added", "Successfull !!"); }, function (error) {
+            _this.notifyService.showError(error.error, "Failed !!");
             console.error("Error", error);
         });
     };
@@ -3877,9 +3877,8 @@ var UserdbComponent = /** @class */ (function () {
         var _this = this;
         this.statsService.deleteUSERCLI().subscribe(function (data) {
             _this.notifyService.showSuccess("User deleted!", "Success");
-            setTimeout(function () {
-                location.reload();
-            }, 2000);
+            _this.hideformclinician = true;
+            _this.hideformadmin = true;
         }, function (error) { console.error("Error", error); });
     };
     ;
@@ -4115,6 +4114,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_files_service__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./services/files.service */ "./src/app/services/files.service.ts");
 /* harmony import */ var _services_stats_service__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./services/stats.service */ "./src/app/services/stats.service.ts");
 /* harmony import */ var _services_notify_service__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./services/notify.service */ "./src/app/services/notify.service.ts");
+/* harmony import */ var ngx_socket_io__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ngx-socket-io */ "./node_modules/ngx-socket-io/index.js");
 
 
 
@@ -4145,6 +4145,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+var config = { url: 'http://localhost:8040', options: {} };
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -4178,7 +4180,8 @@ var AppModule = /** @class */ (function () {
                     timeOut: 7000,
                     positionClass: 'toast-bottom-right',
                     preventDuplicates: false,
-                })
+                }),
+                ngx_socket_io__WEBPACK_IMPORTED_MODULE_30__["SocketIoModule"].forRoot(config)
             ],
             providers: [_services_users_service__WEBPACK_IMPORTED_MODULE_26__["UsersService"], _services_files_service__WEBPACK_IMPORTED_MODULE_27__["FilesService"], _services_stats_service__WEBPACK_IMPORTED_MODULE_28__["StatsService"], _services_notify_service__WEBPACK_IMPORTED_MODULE_29__["NotifyService"], _auth_clinician_guard__WEBPACK_IMPORTED_MODULE_24__["ClinicianGuard"], _auth_admin_guard__WEBPACK_IMPORTED_MODULE_25__["AdminGuard"]
             ],
@@ -4289,7 +4292,7 @@ var ClinicianGuard = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n\n    <form id=\"admission_form\" class=\"col-sm-12 col-md-6 mx-auto rounded \"\n    #admissionForm=\"ngForm\"\n    (ngSubmit)=\"onSubmit()\"\n    >\n\n        <h1>Admission</h1>\n        \n        \n        <label >FirstName</label><br>\n\n        <input id=\"admFormFirstname\" type=\"text\" class=\"form-control form-control-sm rounded\" name=\"firstName\"\n        #firstName=\"ngModel\"\n        [class.is-invalid]=\"firstName.invalid && firstName.touched\" \n        [(ngModel)]=\"admit.firstName\"\n        placeholder=\"Firstname\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"firstName.valid || firstName.untouched\">FirstName is Required</small>\n        <br><br>\n\n\n        <label>LastName</label><br>\n\n        <input id=\"admFormLastname\" type=\"text\" class=\"form-control form-control-sm  rounded\" name=\"lastName\"\n        #lastName=\"ngModel\"\n        [class.is-invalid]=\"lastName.invalid && lastName.touched\" \n        [(ngModel)]=\"admit.lastName\"\n        placeholder=\"Lastname\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"lastName.valid || lastName.untouched\">LastName is Required</small> \n        <br><br>\n\n\n        <label>Age</label><br>\n\n        <input id=\"admFormAge\" type=\"text\" class=\"form-control form-control-sm rounded\" name=\"age\"\n        #age=\"ngModel\" [class.is-invalid]=\"age.invalid && age.touched\" \n        [(ngModel)]=\"admit.age\"\n        placeholder=\"Age\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"age.valid || age.untouched\">Age is Required</small> \n        <br><br>\n\n\n        <label class=\"mt-2\">Gender</label> <br>\n\n        <label>Male</label>\n        <input id=\"admFormMale\" type=\"radio\" name=\"gender\" value=\"male\"\n        [(ngModel)]=\"admit.gender\"\n        required> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;\n        \n        <label>Female</label>\n        <input id=\"admFormFemale\" type=\"radio\" name=\"gender\" value=\"female\"\n        [(ngModel)]=\"admit.gender\"\n        required> <br>\n        \n        \n        <button id=\"admit_btn\" type=\"submit\" class=\"btn btn-success m-3\" [disabled]=\"!admissionForm.valid\" > Admit </button>\n      \n\n    </form>\n\n\n</div>"
+module.exports = "<div class=\"container\">\n\n    <form  class=\"col-sm-12 col-md-6 mx-auto rounded \"\n    #admissionForm=\"ngForm\"\n    (ngSubmit)=\"onSubmit(); admissionForm.reset()\"\n    >\n\n        <h1>Admission</h1>\n        \n        \n        <label >FirstName</label><br>\n\n        <input id=\"admFormFirstname\" type=\"text\" class=\"form-control form-control-sm rounded\" name=\"firstName\"\n        #firstName=\"ngModel\"\n        [class.is-invalid]=\"firstName.invalid && firstName.touched\" \n        [(ngModel)]=\"admit.firstName\"\n        placeholder=\"Firstname\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"firstName.valid || firstName.untouched\">FirstName is Required</small>\n        <br><br>\n\n\n        <label>LastName</label><br>\n\n        <input id=\"admFormLastname\" type=\"text\" class=\"form-control form-control-sm  rounded\" name=\"lastName\"\n        #lastName=\"ngModel\"\n        [class.is-invalid]=\"lastName.invalid && lastName.touched\" \n        [(ngModel)]=\"admit.lastName\"\n        placeholder=\"Lastname\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"lastName.valid || lastName.untouched\">LastName is Required</small> \n        <br><br>\n\n\n        <label>Age</label><br>\n\n        <input id=\"admFormAge\" type=\"text\" class=\"form-control form-control-sm rounded\" name=\"age\"\n        #age=\"ngModel\" [class.is-invalid]=\"age.invalid && age.touched\" \n        [(ngModel)]=\"admit.age\"\n        placeholder=\"Age\" required>\n        <small class=\"text-danger ml-2\" [class.d-none]=\"age.valid || age.untouched\">Age is Required</small> \n        <br><br>\n\n\n        <label class=\"mt-2\">Gender</label> <br>\n\n        <label>Male</label>\n        <input id=\"admFormMale\" type=\"radio\" name=\"gender\" value=\"male\"\n        [(ngModel)]=\"admit.gender\"\n        required> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;\n        \n        <label>Female</label>\n        <input id=\"admFormFemale\" type=\"radio\" name=\"gender\" value=\"female\"\n        [(ngModel)]=\"admit.gender\"\n        required> <br>\n        \n        \n        <button id=\"admit_btn\" type=\"submit\" class=\"btn btn-success m-3\" [disabled]=\"!admissionForm.valid\" > Admit </button>\n      \n\n    </form>\n\n\n</div>"
 
 /***/ }),
 
@@ -4340,12 +4343,8 @@ var AdmissionComponent = /** @class */ (function () {
         this.filesService.admitPatient(this.admit).subscribe(function (data) {
             console.log("Admission Success!");
             _this.notifyService.showSuccess("Patient Admitted", "Successfull !!");
-            setTimeout(function () {
-                location.reload();
-            }, 2000);
         }, function (error) { console.error("Error", error); });
     };
-    ;
     AdmissionComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-admission',
@@ -4358,6 +4357,17 @@ var AdmissionComponent = /** @class */ (function () {
     return AdmissionComponent;
 }());
 
+/*
+
+this.filesService.admitPatient(this.admit).subscribe(
+      data => {
+                console.log("Admission Success!");
+                this.notifyService.showSuccess("Patient Admitted", "Successfull !!");
+                
+              },
+      error => { console.error("Error", error); }
+    )
+    */ 
 
 
 /***/ }),
@@ -4369,7 +4379,7 @@ var AdmissionComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n\n        <form id=\"home_form\" class=\"form mx-auto rounded \">\n    \n            <h1>Home Page</h1>\n            <h4>Choose Section</h4>\n\n            <ul>\n                <li><a href=\"/kimsapp/clinician/admission\">Admission</a></li>\n                <li><a href=\"/kimsapp/clinician/examination\">Examination</a></li>\n                <li><a href=\"/kimsapp/clinician/lab\">Laboratory</a></li>\n                <li><a href=\"/kimsapp/clinician/xray\">Xray</a></li>\n                <li><a href=\"/kimsapp/clinician/pharmacy\">Pharmacy</a></li>\n            </ul>\n    \n        </form>\n    \n    </div>"
+module.exports = "<div class=\"container\">\n\n        <form id=\"home_form\" class=\"form mx-auto rounded \">\n    \n            <h1>Home Page</h1>\n            <h4>Choose Section</h4>\n\n            <ul>\n                <li><a (click)=\"Admission()\" >Admission</a></li>\n                <li><a (click)=\"Examination()\">Examination</a></li>\n                <li><a (click)=\"Lab()\">Laboratory</a></li>\n                <li><a (click)=\"Xray()\">Xray</a></li>\n                <li><a (click)=\"Pharmacy()\">Pharmacy</a></li>\n            </ul>\n    \n        </form>\n    \n    </div>"
 
 /***/ }),
 
@@ -4396,12 +4406,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChomeComponent", function() { return ChomeComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+
 
 
 var ChomeComponent = /** @class */ (function () {
-    function ChomeComponent() {
+    function ChomeComponent(router) {
+        this.router = router;
     }
     ChomeComponent.prototype.ngOnInit = function () {
+    };
+    ChomeComponent.prototype.Admission = function () {
+        this.router.navigate(["/kimsapp/clinician/admission"]);
+    };
+    ChomeComponent.prototype.Examination = function () {
+        this.router.navigate(["/kimsapp/clinician/examination"]);
+    };
+    ChomeComponent.prototype.Lab = function () {
+        this.router.navigate(["/kimsapp/clinician/lab"]);
+    };
+    ChomeComponent.prototype.Xray = function () {
+        this.router.navigate(["/kimsapp/clinician/xray"]);
+    };
+    ChomeComponent.prototype.Pharmacy = function () {
+        this.router.navigate(["/kimsapp/clinician/pharmacy"]);
     };
     ChomeComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -4409,7 +4437,7 @@ var ChomeComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./chome.component.html */ "./src/app/clinician/chome/chome.component.html"),
             styles: [__webpack_require__(/*! ./chome.component.scss */ "./src/app/clinician/chome/chome.component.scss")]
         }),
-        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
     ], ChomeComponent);
     return ChomeComponent;
 }());
@@ -4492,7 +4520,7 @@ var ClinicianComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"card-deck\">\n        \n    <form id=\"adm_exam_form\" class=\"form mr-auto rounded   \">\n\n        <h4><strong>Patients from Admission</strong></h4>\n        <hr>\n        \n        <ol >\n\n            <li *ngFor=\"let admittedPatient of admittedPatients\" (click)=\"openAdmFile(admittedPatient.patientNo)\">\n                \n                {{admittedPatient.firstName}} {{admittedPatient.lastName}} : {{admittedPatient.patientNo}}\n\n            </li>\n            \n        </ol>\n        \n            \n\n    </form>\n    <!-- Examination Form 1 -->\n    <form id=\"examination_form1\" class=\"form mx-auto  rounded\" [hidden]=\"hideFormONE\">\n\n            <h1><strong>Examination Form</strong></h1>\n            \n            <hr>\n           \n            <label id=\"h_name\">Name: <strong id=\"name\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.name }}</strong></label> <br>\n\n            <label id=\"h_patientNo\">PatientNo: <strong id=\"patientNo\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.patientNo }}</strong></label>\n\n            &nbsp;&nbsp;&nbsp;\n            <label id=\"h_age\">Age: <strong id=\"age\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\">{{ openedFile.age }}</strong></label>\n\n            &nbsp;&nbsp;&nbsp;&nbsp;\n            <label id=\"h_gender\">Gender: <strong id=\"gender\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\">{{ openedFile.gender }}</strong></label> <br>\n\n            <label id=\"l_signs\" class=\"mt-1\"><strong>Signs & Symptoms</strong></label> <br>\n            <textarea id=\"t_signs\" type=\"text\" class=\"rounded\" name=\"signs\" [(ngModel)]=\"exam.signs\" class=\"form-control form-control-sm\" cols=\"40\" rows=\"3\" placeholder=\"Type signs and symptoms here\" [readonly]=\"signReadonly\" (keyup)=\"signKeyup()\" required></textarea> <br>\n\n            <label id=\"l_tests\" class=\"mt-1\"><strong>Tests / Xray</strong></label> <br>\n            <textarea id=\"t_tests\" class=\"rounded\" name=\"tests\" [(ngModel)]=\"exam.tests\" class=\"form-control form-control-sm\" cols=\"40\" rows=\"3\" placeholder=\"Type tests/xray here\" [readonly]=\"testReadonly\" (keyup)=\"testKeyup()\" required></textarea> <br>\n\n            <label id=\"l_testsResults\" class=\"mt-1\"><strong>Tests / Xray Results</strong></label> <br>\n            <textarea id=\"t_testsResults\" class=\"rounded\" name=\"results\" [(ngModel)]=\"exam.results\" class=\"form-control form-control-sm\" cols=\"40\" rows=\"3\" placeholder=\"Read Only\" readonly=\"readonly\" ></textarea> <br>\n\n            <label id=\"l_dx\" class=\"mt-1\"><strong>Diagnosis</strong></label> <br>\n            <textarea id=\"t_dx\" class=\"rounded\" cols=\"40\" name=\"dx\" [(ngModel)]=\"exam.dx\" rows=\"3\" class=\"form-control form-control-sm\" placeholder=\"Type diagnosis here\" [readonly]=\"dxReadonly\" (keyup)=\"dxKeyup()\" ></textarea> <br>\n\n            <button id=\"delete_btn\" type=\"button\" (click)=\"delete()\" class=\"btn btn-sm btn-danger m-3\" [disabled]=\"deleteDisabled\" > Delete </button> \n\n            <button id=\"btn_ToLab\" type=\"button\" (click)=\"toLab()\" class=\"btn btn-sm btn-warning m-3\" [disabled]=\"tolabDisabled\"> To lab </button>\n\n            <button id=\"btn_ToXray\" type=\"button\" (click)=\"toXray()\" class=\"btn btn-sm btn-primary m-3\" [disabled]=\"toxrayDisabled\"> To Xray </button>\n\n            <button id=\"btn_ToPharmacy\" type=\"button\" (click)=\"toPharmacy()\" class=\"btn btn-sm btn-success m-3\" [disabled]=\"topharmacyDisabled\"> To Pharmacy </button>\n\n            <hr>\n\n    </form>\n    <!-- Examination form 2 -->\n    <form id=\"examination_form2\" class=\"form mx-auto  rounded\" [hidden]=\"hideFormTWO\" >\n\n        <h1><strong>Examination Form</strong></h1>\n        \n        <hr>\n       \n        <label id=\"h_name\">Name: <strong id=\"name\" class=\"text-warning\" *ngFor=\"let referedFile of referedFiles\" >{{ referedFile.name }}</strong></label> <br>\n\n        <label id=\"h_patientNo\">PatientNo: <strong id=\"patientNo\" class=\"text-warning\" *ngFor=\"let referedFile of referedFiles\" >{{ referedFile.patientNo }}</strong></label>\n\n        &nbsp;&nbsp;&nbsp;\n        <label id=\"h_age\">Age: <strong id=\"age\" class=\"text-warning\" *ngFor=\"let referedFile of referedFiles\">{{ referedFile.age }}</strong></label>\n\n        &nbsp;&nbsp;&nbsp;&nbsp;\n        <label id=\"h_gender\">Gender: <strong id=\"gender\" class=\"text-warning\" *ngFor=\"let referedFile of referedFiles\">{{ referedFile.gender }}</strong></label> <br>\n\n        <label id=\"l_signs\" class=\"mt-1\"><strong>Signs & Symptoms</strong></label> <br>\n        <textarea id=\"t_signs\" type=\"text\" class=\"rounded\" name=\"signs\" class=\"form-control form-control-sm\" cols=\"40\" rows=\"3\" placeholder=\"Type signs and symptoms here\" readonly=\"readonly\" (keyup)=\"signKeyup()\" *ngFor=\"let referedFile of referedFiles\" required>{{ referedFile.signs }}</textarea> <br>\n\n        <label id=\"l_tests\" class=\"mt-1\"><strong>Tests / Xray</strong></label> <br>\n        <textarea id=\"t_tests\" class=\"rounded\" name=\"tests\" class=\"form-control form-control-sm\" cols=\"40\" rows=\"3\" placeholder=\"Type tests/xray here\" readonly=\"readonly\" (keyup)=\"testKeyup()\" *ngFor=\"let referedFile of referedFiles\">{{ referedFile.tests }}</textarea> <br>\n\n        <label id=\"l_testsResults\" class=\"mt-1\"><strong>Tests / Xray Results</strong></label> <br>\n        <textarea id=\"t_testsResults\" class=\"rounded\" name=\"results\"  class=\"form-control form-control-sm\" cols=\"40\" rows=\"3\" placeholder=\"Read Only\" readonly=\"readonly\" *ngFor=\"let referedFile of referedFiles\">{{ referedFile.results }}</textarea> <br>\n\n        <label id=\"l_dx\" class=\"mt-1\"><strong>Diagnosis</strong></label> <br>\n        <textarea id=\"t_dx\" class=\"rounded\" cols=\"40\" name=\"dx\" [(ngModel)]=\"exam2.dx\" rows=\"3\" class=\"form-control form-control-sm\" placeholder=\"Type diagnosis here\" [readonly]=\"dxReadonly\" (keyup)=\"dxxKeyup()\" *ngFor=\"let referedFile of referedFiles\">{{ referedFile.dx }}</textarea> <br>\n\n        <button id=\"btn_ToPharmacy\" type=\"button\" (click)=\"toPharm()\" class=\"btn btn-sm btn-success m-3\" [disabled]=\"topharmDisabled\"> To Pharmacy </button>\n\n        <hr>\n\n</form>\n\n\n<!------------------------------------------------------------>\n\n    <form id=\"to_exam_form\" class=\"form ml-auto rounded\">\n\n        <h4><strong>Patients from Lab</strong></h4>\n        <ol >\n\n            <li id=\"listLab\" *ngFor=\"let labPatient of labPatients\" (click)=\"openLabFile(labPatient.patientNo)\">\n                \n                {{labPatient.name}} : {{labPatient.patientNo}}\n\n            </li>\n            \n        </ol>\n        <hr>\n        <h4><strong>Patients from Xray</strong></h4>\n        \n        <ol >\n\n            <li id=\"listXray\" *ngFor=\"let xrayPatient of xrayPatients\" (click)=\"openXrayFile(xrayPatient.patientNo)\">\n                \n                {{xrayPatient.name}} : {{xrayPatient.patientNo}}\n\n            </li>\n            \n        </ol>       \n\n    </form>\n\n<!------------------------------------------------------------>\n\n\n\n</div>"
+module.exports = "<div class=\"card-deck\">\n        \n    <form id=\"adm_exam_form\" class=\"form mr-auto rounded   \">\n\n        <h4><strong>Patients from Admission</strong></h4>\n        <hr>\n        \n        <ol >\n\n            <li *ngFor=\"let admittedPatient of admittedPatients\" (click)=\"openAdmFile(admittedPatient.patientNo)\">\n                \n                {{admittedPatient.firstName}} {{admittedPatient.lastName}} : {{admittedPatient.patientNo}}\n\n            </li>\n            \n        </ol>\n        \n            \n\n    </form>\n    <!-- Examination Form 1 -->\n    <form id=\"examination_form1\" #examination_form1=\"ngForm\" class=\"form mx-auto  rounded\" [hidden]=\"hideFormONE\">\n\n            <h1><strong>Examination Form</strong></h1>\n            \n            <hr>\n           \n            <label id=\"h_name\">Name: <strong id=\"name\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.name }}</strong></label> <br>\n\n            <label id=\"h_patientNo\">PatientNo: <strong id=\"patientNo\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.patientNo }}</strong></label>\n\n            &nbsp;&nbsp;&nbsp;\n            <label id=\"h_age\">Age: <strong id=\"age\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\">{{ openedFile.age }}</strong></label>\n\n            &nbsp;&nbsp;&nbsp;&nbsp;\n            <label id=\"h_gender\">Gender: <strong id=\"gender\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\">{{ openedFile.gender }}</strong></label> <br>\n\n            <label id=\"l_signs\" class=\"mt-1\"><strong>Signs & Symptoms</strong></label> <br>\n            <textarea id=\"t_signs\" type=\"text\" class=\"rounded\" name=\"signs\" [(ngModel)]=\"exam.signs\" class=\"form-control form-control-sm\" cols=\"40\" rows=\"3\" placeholder=\"Type signs and symptoms here\" [readonly]=\"signReadonly\" (keyup)=\"signKeyup()\" required></textarea> <br>\n\n            <label id=\"l_tests\" class=\"mt-1\"><strong>Tests / Xray</strong></label> <br>\n            <textarea id=\"t_tests\" class=\"rounded\" name=\"tests\" [(ngModel)]=\"exam.tests\" class=\"form-control form-control-sm\" cols=\"40\" rows=\"3\" placeholder=\"Type tests/xray here\" [readonly]=\"testReadonly\" (keyup)=\"testKeyup()\" required></textarea> <br>\n\n            <label id=\"l_testsResults\" class=\"mt-1\"><strong>Tests / Xray Results</strong></label> <br>\n            <textarea id=\"t_testsResults\" class=\"rounded\" name=\"results\" [(ngModel)]=\"exam.results\" class=\"form-control form-control-sm\" cols=\"40\" rows=\"3\" placeholder=\"Read Only\" readonly=\"readonly\" ></textarea> <br>\n\n            <label id=\"l_dx\" class=\"mt-1\"><strong>Diagnosis</strong></label> <br>\n            <textarea id=\"t_dx\" class=\"rounded\" cols=\"40\" name=\"dx\" [(ngModel)]=\"exam.dx\" rows=\"3\" class=\"form-control form-control-sm\" placeholder=\"Type diagnosis here\" [readonly]=\"dxReadonly\" (keyup)=\"dxKeyup()\" ></textarea> <br>\n\n            <button id=\"delete_btn\" type=\"button\" (click)=\"delete(); examination_form1.reset()\" class=\"btn btn-sm btn-danger m-3\" [disabled]=\"deleteDisabled\" > Delete </button> \n\n            <button id=\"btn_ToLab\" type=\"button\" (click)=\"toLab(); examination_form1.reset()\" class=\"btn btn-sm btn-warning m-3\" [disabled]=\"tolabDisabled\"> To lab </button>\n\n            <button id=\"btn_ToXray\" type=\"button\" (click)=\"toXray(); examination_form1.reset()\" class=\"btn btn-sm btn-primary m-3\" [disabled]=\"toxrayDisabled\"> To Xray </button>\n\n            <button id=\"btn_ToPharmacy\" type=\"button\" (click)=\"toPharmacy(); examination_form1.reset()\" class=\"btn btn-sm btn-success m-3\" [disabled]=\"topharmacyDisabled\"> To Pharmacy </button>\n\n            <hr>\n\n    </form>\n    <!-- Examination form 2 -->\n    <form id=\"examination_form2\" #examination_form2=\"ngForm\" class=\"form mx-auto  rounded\" [hidden]=\"hideFormTWO\" >\n\n        <h1><strong>Examination Form</strong></h1>\n        \n        <hr>\n       \n        <label id=\"h_name\">Name: <strong id=\"name\" class=\"text-warning\" *ngFor=\"let referedFile of referedFiles\" >{{ referedFile.name }}</strong></label> <br>\n\n        <label id=\"h_patientNo\">PatientNo: <strong id=\"patientNo\" class=\"text-warning\" *ngFor=\"let referedFile of referedFiles\" >{{ referedFile.patientNo }}</strong></label>\n\n        &nbsp;&nbsp;&nbsp;\n        <label id=\"h_age\">Age: <strong id=\"age\" class=\"text-warning\" *ngFor=\"let referedFile of referedFiles\">{{ referedFile.age }}</strong></label>\n\n        &nbsp;&nbsp;&nbsp;&nbsp;\n        <label id=\"h_gender\">Gender: <strong id=\"gender\" class=\"text-warning\" *ngFor=\"let referedFile of referedFiles\">{{ referedFile.gender }}</strong></label> <br>\n\n        <label id=\"l_signs\" class=\"mt-1\"><strong>Signs & Symptoms</strong></label> <br>\n        <textarea id=\"t_signs\" type=\"text\" class=\"rounded\" name=\"signs\" class=\"form-control form-control-sm\" cols=\"40\" rows=\"3\" placeholder=\"Type signs and symptoms here\" readonly=\"readonly\" (keyup)=\"signKeyup()\" *ngFor=\"let referedFile of referedFiles\" required>{{ referedFile.signs }}</textarea> <br>\n\n        <label id=\"l_tests\" class=\"mt-1\"><strong>Tests / Xray</strong></label> <br>\n        <textarea id=\"t_tests\" class=\"rounded\" name=\"tests\" class=\"form-control form-control-sm\" cols=\"40\" rows=\"3\" placeholder=\"Type tests/xray here\" readonly=\"readonly\" (keyup)=\"testKeyup()\" *ngFor=\"let referedFile of referedFiles\">{{ referedFile.tests }}</textarea> <br>\n\n        <label id=\"l_testsResults\" class=\"mt-1\"><strong>Tests / Xray Results</strong></label> <br>\n        <textarea id=\"t_testsResults\" class=\"rounded\" name=\"results\"  class=\"form-control form-control-sm\" cols=\"40\" rows=\"3\" placeholder=\"Read Only\" readonly=\"readonly\" *ngFor=\"let referedFile of referedFiles\">{{ referedFile.results }}</textarea> <br>\n\n        <label id=\"l_dx\" class=\"mt-1\"><strong>Diagnosis</strong></label> <br>\n        <textarea id=\"t_dx\" class=\"rounded\" cols=\"40\" name=\"dx\" [(ngModel)]=\"exam2.dx\" rows=\"3\" class=\"form-control form-control-sm\" placeholder=\"Type diagnosis here\" [readonly]=\"dxReadonly\" (keyup)=\"dxxKeyup()\" *ngFor=\"let referedFile of referedFiles\">{{ referedFile.dx }}</textarea> <br>\n\n        <button id=\"btn_ToPharmacy\" type=\"button\" (click)=\"toPharm(); examination_form2.reset()\" class=\"btn btn-sm btn-success m-3\" [disabled]=\"topharmDisabled\"> To Pharmacy </button>\n\n        <hr>\n\n</form>\n\n\n<!------------------------------------------------------------>\n\n    <form id=\"to_exam_form\" class=\"form ml-auto rounded\">\n\n        <h4><strong>Patients from Lab</strong></h4>\n        <ol >\n\n            <li id=\"listLab\" *ngFor=\"let labPatient of labPatients\" (click)=\"openLabFile(labPatient.patientNo)\">\n                \n                {{labPatient.name}} : {{labPatient.patientNo}}\n\n            </li>\n            \n        </ol>\n        <hr>\n        <h4><strong>Patients from Xray</strong></h4>\n        \n        <ol >\n\n            <li id=\"listXray\" *ngFor=\"let xrayPatient of xrayPatients\" (click)=\"openXrayFile(xrayPatient.patientNo)\">\n                \n                {{xrayPatient.name}} : {{xrayPatient.patientNo}}\n\n            </li>\n            \n        </ol>       \n\n    </form>\n\n<!------------------------------------------------------------>\n\n\n\n</div>"
 
 /***/ }),
 
@@ -4547,7 +4575,7 @@ var ExaminationComponent = /** @class */ (function () {
     }
     ExaminationComponent.prototype.ngOnInit = function () {
         var _this = this;
-        // List Admitted patients functions
+        // List patients from Admission
         this.filesService.listAdmitPatient().subscribe(function (data) { _this.admittedPatients = data; }, function (error) { console.error("Error", error); });
         // List patients from lab functions
         this.filesService.listPatientfromLab().subscribe(function (data) { _this.labPatients = data; }, function (error) { console.error("Error", error); });
@@ -4557,6 +4585,11 @@ var ExaminationComponent = /** @class */ (function () {
         this.filesService.examinationReload().subscribe(
         // Do Nothing
         );
+        //Update Exam Form
+        this.filesService.updateExamForm().subscribe(function (data) {
+            _this.openedFiles = data;
+            _this.referedFiles = data;
+        }, function (error) { console.error("Error", error); });
         // define captured data
         this.exam = {
             signs: "",
@@ -4575,7 +4608,6 @@ var ExaminationComponent = /** @class */ (function () {
         this.filesService.openAdmFile(patientNo).subscribe(function (data) {
             _this.hideFormONE = false;
             _this.hideFormTWO = true;
-            _this.openedFiles = data;
             _this.signReadonly = false;
             _this.deleteDisabled = false;
             _this.notifyService.showInfo("File from Admission Opened !", "Info..");
@@ -4615,22 +4647,12 @@ var ExaminationComponent = /** @class */ (function () {
     // ==== Delete File =======
     ExaminationComponent.prototype.delete = function () {
         var _this = this;
-        this.filesService.deleteFile().subscribe(function (data) {
-            _this.notifyService.showSuccess("File deleted!", "Success");
-            setTimeout(function () {
-                location.reload();
-            }, 2000);
-        }, function (error) { console.log(error, "Error!"); });
+        this.filesService.deleteFile().subscribe(function (data) { _this.notifyService.showSuccess("File deleted!", "Success"); }, function (error) { console.log(error, "Error!"); });
     };
     // ==== to Lab =========
     ExaminationComponent.prototype.toLab = function () {
         var _this = this;
-        this.filesService.tolab(this.exam).subscribe(function (data) {
-            _this.notifyService.showSuccess("Sent To Lab..", "Success !");
-            setTimeout(function () {
-                location.reload();
-            }, 2000);
-        }, function (error) { console.log(error, "Error!"); });
+        this.filesService.tolab(this.exam).subscribe(function (data) { _this.notifyService.showSuccess("Sent To Lab..", "Success !"); }, function (error) { console.log(error, "Error!"); });
     };
     //=== Opening Lab file ===
     ExaminationComponent.prototype.openLabFile = function (id) {
@@ -4639,7 +4661,6 @@ var ExaminationComponent = /** @class */ (function () {
         this.filesService.openFilefromLab(patientNo).subscribe(function (data) {
             _this.hideFormONE = true;
             _this.hideFormTWO = false;
-            _this.referedFiles = data;
             _this.signReadonly = true;
             _this.testReadonly = true;
             _this.dxReadonly = false;
@@ -4655,12 +4676,7 @@ var ExaminationComponent = /** @class */ (function () {
     // ==== To Xray =========
     ExaminationComponent.prototype.toXray = function () {
         var _this = this;
-        this.filesService.toxray(this.exam).subscribe(function (data) {
-            _this.notifyService.showSuccess("Sent To Xray.", "Success !");
-            setTimeout(function () {
-                location.reload();
-            }, 2000);
-        }, function (error) { console.log(error, "Error!"); });
+        this.filesService.toxray(this.exam).subscribe(function (data) { _this.notifyService.showSuccess("Sent To Xray.", "Success !"); }, function (error) { console.log(error, "Error!"); });
     };
     //=== Opening Xray file ===
     ExaminationComponent.prototype.openXrayFile = function (id) {
@@ -4669,7 +4685,6 @@ var ExaminationComponent = /** @class */ (function () {
         this.filesService.openFilefromXray(patientNo).subscribe(function (data) {
             _this.hideFormONE = true;
             _this.hideFormTWO = false;
-            _this.referedFiles = data;
             _this.signReadonly = true;
             _this.testReadonly = true;
             _this.dxReadonly = false;
@@ -4685,21 +4700,11 @@ var ExaminationComponent = /** @class */ (function () {
     // ==== To Pharmacy =========
     ExaminationComponent.prototype.toPharmacy = function () {
         var _this = this;
-        this.filesService.topharmacy(this.exam).subscribe(function (data) {
-            _this.notifyService.showSuccess("Sent To Pharmacy..", "Success !");
-            setTimeout(function () {
-                location.reload();
-            }, 2000);
-        }, function (error) { console.log(error, "Error!"); });
+        this.filesService.topharmacy(this.exam).subscribe(function (data) { _this.notifyService.showSuccess("Sent To Pharmacy..", "Success !"); }, function (error) { console.log(error, "Error!"); });
     };
     ExaminationComponent.prototype.toPharm = function () {
         var _this = this;
-        this.filesService.topharm(this.exam2).subscribe(function (data) {
-            _this.notifyService.showSuccess("Sent To Pharmacy..", "Success !");
-            setTimeout(function () {
-                location.reload();
-            }, 2000);
-        }, function (error) { console.log(error, "Error!"); });
+        this.filesService.topharm(this.exam2).subscribe(function (data) { _this.notifyService.showSuccess("Sent To Pharmacy..", "Success !"); }, function (error) { console.log(error, "Error!"); });
     };
     ExaminationComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -4724,7 +4729,7 @@ var ExaminationComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"card-deck\">\n\n    <form id=\"exam_lab_form\" class=\"form rounded  \">\n\n        <h4><strong>Patients from Examination</strong></h4>\n        <hr>\n        <ol >\n\n            <li *ngFor=\"let labPatient of labPatients\" (click)=\"openLabFile(labPatient.patientNo)\">\n                \n                {{labPatient.name}} : {{labPatient.patientNo}}\n\n            </li>\n            \n        </ol>             \n\n    </form>\n\n\n    <form id=\"lab_form\" class=\"form mx-auto rounded\" (ngSubmit)=\"onSubmit()\" >\n\n            <h1><strong>Laboratory Form</strong></h1>\n            \n            <hr>\n           \n            <label id=\"h_name\">Name: <strong id=\"lab_name\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.name }}</strong></label> <br>\n\n            <label id=\"h_patientNo\">PatientNo: <strong id=\"lab_patientNo\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.patientNo }}</strong></label>\n\n            &nbsp;&nbsp;&nbsp;\n            <label id=\"h_age\">Age: <strong id=\"lab_age\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.age }}</strong></label>\n\n            &nbsp;&nbsp;&nbsp;&nbsp;\n            <label id=\"h_gender\">Gender: <strong id=\"lab_gender\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.gender }}</strong></label> <br>\n\n            <label id=\"l_signs\" class=\"mt-1\"><strong>Signs & Symptoms</strong></label> <br>\n            <textarea id=\"lab_t_signs\" name=\"signs\" class=\"form-control form-control-sm\" cols=\"40\" rows=\"3\" placeholder=\"Type signs and symptoms here\" *ngFor=\"let openedFile of openedFiles\" readonly=\"readonly\">{{ openedFile.signs }}</textarea> <br>\n\n            <label id=\"l_tests\" class=\"mt-1\"><strong>Tests</strong></label> <br>\n            <textarea id=\"lab_t_tests\"  class=\"form-control form-control-sm\" name=\"tests\" cols=\"40\" rows=\"3\" placeholder=\"Type tests here\" *ngFor=\"let openedFile of openedFiles\" readonly=\"readonly\">{{ openedFile.tests }}</textarea> <br>\n\n            <label id=\"l_testsResults\" class=\"mt-1\"><strong>Tests' Results</strong></label> <br>\n            <textarea id=\"lab_t_testsResults\" [(ngModel)]=\"lab.results\" class=\"form-control form-control-sm\" name=\"results\" cols=\"40\" rows=\"3\" placeholder=\"Type tests results here\" *ngFor=\"let openedFile of openedFiles\" (keyup)=\"resultKeyup()\">{{ openedFile.results }}</textarea> <br>\n\n            \n\n            <button id=\"btn_LabToExam\" type=\"submit\" class=\"btn btn-sm btn-warning m-3\" [disabled]=\"toExamDisabled\"> To Examination </button>\n\n            \n\n            <hr>\n\n    </form>\n\n\n\n\n\n</div>\n"
+module.exports = "<div class=\"card-deck\">\n\n    <form id=\"exam_lab_form\" class=\"form rounded  \">\n\n        <h4><strong>Patients from Examination</strong></h4>\n        <hr>\n        <ol >\n\n            <li *ngFor=\"let labPatient of labPatients\" (click)=\"openLabFile(labPatient.patientNo)\">\n                \n                {{labPatient.name}} : {{labPatient.patientNo}}\n\n            </li>\n            \n        </ol>             \n\n    </form>\n\n\n    <form id=\"lab_form\" #lab_form=\"ngForm\" class=\"form mx-auto rounded\" (ngSubmit)=\"onSubmit(); lab_form.reset()\" >\n\n            <h1><strong>Laboratory Form</strong></h1>\n            \n            <hr>\n           \n            <label id=\"h_name\">Name: <strong id=\"lab_name\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.name }}</strong></label> <br>\n\n            <label id=\"h_patientNo\">PatientNo: <strong id=\"lab_patientNo\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.patientNo }}</strong></label>\n\n            &nbsp;&nbsp;&nbsp;\n            <label id=\"h_age\">Age: <strong id=\"lab_age\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.age }}</strong></label>\n\n            &nbsp;&nbsp;&nbsp;&nbsp;\n            <label id=\"h_gender\">Gender: <strong id=\"lab_gender\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.gender }}</strong></label> <br>\n\n            <label id=\"l_signs\" class=\"mt-1\"><strong>Signs & Symptoms</strong></label> <br>\n            <textarea id=\"lab_t_signs\" name=\"signs\" class=\"form-control form-control-sm\" cols=\"40\" rows=\"3\" placeholder=\"Type signs and symptoms here\" *ngFor=\"let openedFile of openedFiles\" readonly=\"readonly\">{{ openedFile.signs }}</textarea> <br>\n\n            <label id=\"l_tests\" class=\"mt-1\"><strong>Tests</strong></label> <br>\n            <textarea id=\"lab_t_tests\"  class=\"form-control form-control-sm\" name=\"tests\" cols=\"40\" rows=\"3\" placeholder=\"Type tests here\" *ngFor=\"let openedFile of openedFiles\" readonly=\"readonly\">{{ openedFile.tests }}</textarea> <br>\n\n            <label id=\"l_testsResults\" class=\"mt-1\"><strong>Tests' Results</strong></label> <br>\n            <textarea id=\"lab_t_testsResults\" [(ngModel)]=\"lab.results\" class=\"form-control form-control-sm\" name=\"results\" cols=\"40\" rows=\"3\" placeholder=\"Type tests results here\" *ngFor=\"let openedFile of openedFiles\" (keyup)=\"resultKeyup()\">{{ openedFile.results }}</textarea> <br>\n\n            \n\n            <button id=\"btn_LabToExam\" type=\"submit\" class=\"btn btn-sm btn-warning m-3\" [disabled]=\"toExamDisabled\"> To Examination </button>\n\n            \n\n            <hr>\n\n    </form>\n\n\n\n\n\n</div>\n"
 
 /***/ }),
 
@@ -4773,6 +4778,8 @@ var LaboratoryComponent = /** @class */ (function () {
         this.filesService.labReload().subscribe(
         // Do Nothing
         );
+        //Update Lab Form
+        this.filesService.updateLabForm().subscribe(function (data) { _this.openedFiles = data; }, function (error) { console.error("Error", error); });
         // define captured data
         this.lab = {
             results: "",
@@ -4782,10 +4789,7 @@ var LaboratoryComponent = /** @class */ (function () {
     LaboratoryComponent.prototype.openLabFile = function (id) {
         var _this = this;
         var patientNo = { patientNo: id };
-        this.filesService.openLabFile(patientNo).subscribe(function (data) {
-            _this.openedFiles = data;
-            _this.notifyService.showInfo("File Opened !", "Info..");
-        }, function (error) {
+        this.filesService.openLabFile(patientNo).subscribe(function (data) { _this.notifyService.showInfo("File Opened !", "Info.."); }, function (error) {
             console.log("Error", error);
             _this.notifyService.showWarning(error.error, "Warnning!");
         });
@@ -4798,12 +4802,7 @@ var LaboratoryComponent = /** @class */ (function () {
     // ==== Back to Examination =========
     LaboratoryComponent.prototype.onSubmit = function () {
         var _this = this;
-        this.filesService.labToExam(this.lab).subscribe(function (data) {
-            _this.notifyService.showSuccess("Sent Back To Exam..", "Success !");
-            setTimeout(function () {
-                location.reload();
-            }, 2000);
-        }, function (error) { console.log(error, "Error!"); });
+        this.filesService.labToExam(this.lab).subscribe(function (data) { _this.notifyService.showSuccess("Sent Back To Exam..", "Success !"); }, function (error) { console.log(error, "Error!"); });
     };
     LaboratoryComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -4828,7 +4827,7 @@ var LaboratoryComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"card-deck\">\n\n    <form id=\"exam_pharm_form\" class=\"form rounded  \">\n\n        <h4><strong>Patients from Examination</strong></h4>\n        <hr>\n        <ol >\n\n            <li *ngFor=\"let pharmacyPatient of pharmacyPatients\" (click)=\"openPharmacyFile(pharmacyPatient.patientNo)\">\n                \n                {{pharmacyPatient.name}} : {{pharmacyPatient.patientNo}}\n\n            </li>\n            \n        </ol>              \n\n    </form>\n\n\n    <form id=\"pharm_form\" class=\"form mx-auto rounded\" (ngSubmit)=\"onSubmit()\">\n\n            <h1><strong>Pharmacy Form</strong></h1>\n            \n            <hr>\n           \n            <label id=\"h_name\">Name: <strong id=\"pham_name\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.name }}</strong></label> <br>\n\n            <label id=\"h_patientNo\">PatientNo: <strong id=\"pham_patientNo\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.patientNo }}</strong></label>\n            &nbsp;&nbsp;&nbsp;\n            <label id=\"h_age\">Age: <strong id=\"pham_age\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.age }}</strong></label>\n\n            &nbsp;&nbsp;&nbsp;&nbsp;\n            <label id=\"h_gender\">Gender: <strong id=\"pham_gender\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.gender }}</strong></label> <br>\n\n            <label id=\"l_signs\" class=\"mt-1\"><strong>Signs & Symptoms</strong></label> <br>\n            <textarea id=\"pham_t_signs\" class=\"form-control form-control-sm\" name=\"signs\" cols=\"40\" rows=\"3\" placeholder=\"Type signs and symptoms here\" *ngFor=\"let openedFile of openedFiles\" readonly=\"readonly\">{{ openedFile.signs }}</textarea> <br>\n\n            <label id=\"l_tests\" class=\"mt-1\"><strong>Tests</strong></label> <br>\n            <textarea id=\"pham_t_tests\" class=\"form-control form-control-sm\" name=\"tests\" cols=\"40\" rows=\"3\" placeholder=\"Type tests here\" *ngFor=\"let openedFile of openedFiles\" readonly=\"readonly\">{{ openedFile.tests }}</textarea> <br>\n\n            <label id=\"l_testsResults\" class=\"mt-1\"><strong>Tests' Results</strong></label> <br>\n            <textarea id=\"pham_t_testsResults\" class=\"form-control form-control-sm\" name=\"results\" cols=\"40\" rows=\"3\" placeholder=\"Type tests here\" *ngFor=\"let openedFile of openedFiles\" readonly=\"readonly\">{{ openedFile.results }}</textarea> <br>\n\n            <label id=\"l_dx\" class=\"mt-1\"><strong>Diagnosis</strong></label> <br>\n            <textarea id=\"pham_t_dx\" class=\"form-control form-control-sm\" cols=\"40\" name=\"dx\" rows=\"3\" placeholder=\"Type diagnosis here\" *ngFor=\"let openedFile of openedFiles\" readonly=\"readonly\">{{ openedFile.dx }}</textarea> <br>          \n\n            <button id=\"btn_save\" type=\"submit\" class=\"btn btn-sm btn-success m-3\" [disabled]=\"saveDisabled\"> Save File </button>\n\n            \n\n            <hr>\n\n    </form>\n\n\n\n\n\n</div>\n"
+module.exports = "<div class=\"card-deck\">\n\n    <form id=\"exam_pharm_form\" class=\"form rounded  \">\n\n        <h4><strong>Patients from Examination</strong></h4>\n        <hr>\n        <ol >\n\n            <li *ngFor=\"let pharmacyPatient of pharmacyPatients\" (click)=\"openPharmacyFile(pharmacyPatient.patientNo)\">\n                \n                {{pharmacyPatient.name}} : {{pharmacyPatient.patientNo}}\n\n            </li>\n            \n        </ol>              \n\n    </form>\n\n\n    <form id=\"pharm_form\" #pharm_form=\"ngForm\" class=\"form mx-auto rounded\" (ngSubmit)=\"onSubmit()\">\n\n            <h1><strong>Pharmacy Form</strong></h1>\n            \n            <hr>\n           \n            <label id=\"h_name\">Name: <strong id=\"pham_name\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.name }}</strong></label> <br>\n\n            <label id=\"h_patientNo\">PatientNo: <strong id=\"pham_patientNo\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.patientNo }}</strong></label>\n            &nbsp;&nbsp;&nbsp;\n            <label id=\"h_age\">Age: <strong id=\"pham_age\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.age }}</strong></label>\n\n            &nbsp;&nbsp;&nbsp;&nbsp;\n            <label id=\"h_gender\">Gender: <strong id=\"pham_gender\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.gender }}</strong></label> <br>\n\n            <label id=\"l_signs\" class=\"mt-1\"><strong>Signs & Symptoms</strong></label> <br>\n            <textarea id=\"pham_t_signs\" class=\"form-control form-control-sm\" name=\"signs\" cols=\"40\" rows=\"3\" placeholder=\"Type signs and symptoms here\" *ngFor=\"let openedFile of openedFiles\" readonly=\"readonly\">{{ openedFile.signs }}</textarea> <br>\n\n            <label id=\"l_tests\" class=\"mt-1\"><strong>Tests</strong></label> <br>\n            <textarea id=\"pham_t_tests\" class=\"form-control form-control-sm\" name=\"tests\" cols=\"40\" rows=\"3\" placeholder=\"Type tests here\" *ngFor=\"let openedFile of openedFiles\" readonly=\"readonly\">{{ openedFile.tests }}</textarea> <br>\n\n            <label id=\"l_testsResults\" class=\"mt-1\"><strong>Tests' Results</strong></label> <br>\n            <textarea id=\"pham_t_testsResults\" class=\"form-control form-control-sm\" name=\"results\" cols=\"40\" rows=\"3\" placeholder=\"Type tests here\" *ngFor=\"let openedFile of openedFiles\" readonly=\"readonly\">{{ openedFile.results }}</textarea> <br>\n\n            <label id=\"l_dx\" class=\"mt-1\"><strong>Diagnosis</strong></label> <br>\n            <textarea id=\"pham_t_dx\" class=\"form-control form-control-sm\" cols=\"40\" name=\"dx\" rows=\"3\" placeholder=\"Type diagnosis here\" *ngFor=\"let openedFile of openedFiles\" readonly=\"readonly\">{{ openedFile.dx }}</textarea> <br>          \n\n            <button id=\"btn_save\" type=\"submit\" class=\"btn btn-sm btn-success m-3\" [disabled]=\"saveDisabled\"> Save File </button>\n\n            \n\n            <hr>\n\n    </form>\n\n\n\n\n\n</div>\n"
 
 /***/ }),
 
@@ -4877,13 +4876,14 @@ var PharmacyComponent = /** @class */ (function () {
         this.filesService.pharmacyReload().subscribe(
         // Do Nothing
         );
+        //Update Pharmacy Form
+        this.filesService.updatePharmacyForm().subscribe(function (data) { _this.openedFiles = data; }, function (error) { console.error("Error", error); });
     };
     //=== Opening Pharmacy file ===
     PharmacyComponent.prototype.openPharmacyFile = function (id) {
         var _this = this;
         var patientNo = { patientNo: id };
         this.filesService.openPharmacyFile(patientNo).subscribe(function (data) {
-            _this.openedFiles = data;
             _this.saveDisabled = false;
             _this.notifyService.showInfo("File Opened !", "Info..");
         }, function (error) {
@@ -4894,12 +4894,7 @@ var PharmacyComponent = /** @class */ (function () {
     // ==== Save File =========
     PharmacyComponent.prototype.onSubmit = function () {
         var _this = this;
-        this.filesService.saveFile(this.save).subscribe(function (data) {
-            _this.notifyService.showSuccess("File Saved..", "Success !");
-            setTimeout(function () {
-                location.reload();
-            }, 2000);
-        }, function (error) { console.log(error, "Error!"); });
+        this.filesService.saveFile(this.save).subscribe(function (data) { _this.notifyService.showSuccess("File Saved..", "Success !"); }, function (error) { console.log(error, "Error!"); });
     };
     PharmacyComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -4924,7 +4919,7 @@ var PharmacyComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"card-deck\">\n\n    <form id=\"exam_xray_form\" class=\"form rounded  \">\n\n        <h4><strong>Patients from Examination</strong></h4>\n        <hr>\n        <ol >\n\n            <li *ngFor=\"let xrayPatient of xrayPatients\" (click)=\"openXrayFile(xrayPatient.patientNo)\">\n                \n                {{xrayPatient.name}} : {{xrayPatient.patientNo}}\n\n            </li>\n            \n        </ol>              \n\n    </form>\n\n\n    <form id=\"xray_form\" class=\"form mx-auto rounded\" (ngSubmit)=\"onSubmit()\">\n\n            <h1><strong>Xray Form</strong></h1>\n            \n            <hr>\n           \n            <label id=\"h_name\">Name: <strong id=\"xray_name\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.name }}</strong></label> <br>\n\n            <label id=\"h_patientNo\">PatientNo: <strong id=\"xray_patientNo\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.patientNo }}</strong></label>\n            &nbsp;&nbsp;&nbsp;\n            <label id=\"h_age\">Age: <strong id=\"xray_age\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.age }}</strong></label>\n\n            &nbsp;&nbsp;&nbsp;&nbsp;\n            <label id=\"h_gender\">Gender: <strong id=\"xray_gender\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.gender }}</strong></label> <br>\n\n            <label id=\"l_signs\" class=\"mt-1\"><strong>Signs & Symptoms</strong></label> <br>\n            <textarea id=\"xray_t_signs\"  class=\"form-control form-control-sm\" name=\"signs\" cols=\"40\" rows=\"3\" placeholder=\"Type signs and symptoms here\" readonly=\"readonly\"*ngFor=\"let openedFile of openedFiles\" >{{ openedFile.signs }}</textarea> <br>\n\n            <label id=\"l_tests\" class=\"mt-1\"><strong>Tests</strong></label> <br>\n            <textarea id=\"xray_t_tests\"  class=\"form-control form-control-sm\" name=\"tests\" cols=\"40\" rows=\"3\" placeholder=\"Type tests here\"readonly=\"readonly\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.tests }}</textarea> <br>\n\n            <label id=\"l_testsResults\" class=\"mt-1\"><strong>Tests' Results</strong></label> <br>\n            <textarea id=\"xray_t_testsResults\" [(ngModel)]=\"xray.results\" class=\"form-control form-control-sm\" name=\"results\" cols=\"40\" rows=\"3\" placeholder=\"Type tests here\" (keyup)=\"resultKeyup()\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.results }}</textarea> <br>\n\n            \n\n            <button id=\"btn_XrayToExam\" type=\"submit\" class=\"btn btn-sm btn-primary m-3\" [disabled]=\"toExamDisabled\"> To Examination </button>\n\n            \n\n            <hr>\n\n    </form>\n\n\n\n\n\n</div>\n"
+module.exports = "<div class=\"card-deck\">\n\n    <form id=\"exam_xray_form\" class=\"form rounded  \">\n\n        <h4><strong>Patients from Examination</strong></h4>\n        <hr>\n        <ol >\n\n            <li *ngFor=\"let xrayPatient of xrayPatients\" (click)=\"openXrayFile(xrayPatient.patientNo)\">\n                \n                {{xrayPatient.name}} : {{xrayPatient.patientNo}}\n\n            </li>\n            \n        </ol>              \n\n    </form>\n\n\n    <form id=\"xray_form\" #xray_form=\"ngForm\" class=\"form mx-auto rounded\" (ngSubmit)=\"onSubmit(); xray_form.reset()\">\n\n            <h1><strong>Xray Form</strong></h1>\n            \n            <hr>\n           \n            <label id=\"h_name\">Name: <strong id=\"xray_name\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.name }}</strong></label> <br>\n\n            <label id=\"h_patientNo\">PatientNo: <strong id=\"xray_patientNo\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.patientNo }}</strong></label>\n            &nbsp;&nbsp;&nbsp;\n            <label id=\"h_age\">Age: <strong id=\"xray_age\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.age }}</strong></label>\n\n            &nbsp;&nbsp;&nbsp;&nbsp;\n            <label id=\"h_gender\">Gender: <strong id=\"xray_gender\" class=\"text-warning\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.gender }}</strong></label> <br>\n\n            <label id=\"l_signs\" class=\"mt-1\"><strong>Signs & Symptoms</strong></label> <br>\n            <textarea id=\"xray_t_signs\"  class=\"form-control form-control-sm\" name=\"signs\" cols=\"40\" rows=\"3\" placeholder=\"Type signs and symptoms here\" readonly=\"readonly\"*ngFor=\"let openedFile of openedFiles\" >{{ openedFile.signs }}</textarea> <br>\n\n            <label id=\"l_tests\" class=\"mt-1\"><strong>Tests</strong></label> <br>\n            <textarea id=\"xray_t_tests\"  class=\"form-control form-control-sm\" name=\"tests\" cols=\"40\" rows=\"3\" placeholder=\"Type tests here\"readonly=\"readonly\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.tests }}</textarea> <br>\n\n            <label id=\"l_testsResults\" class=\"mt-1\"><strong>Tests' Results</strong></label> <br>\n            <textarea id=\"xray_t_testsResults\" [(ngModel)]=\"xray.results\" class=\"form-control form-control-sm\" name=\"results\" cols=\"40\" rows=\"3\" placeholder=\"Type tests here\" (keyup)=\"resultKeyup()\" *ngFor=\"let openedFile of openedFiles\" >{{ openedFile.results }}</textarea> <br>\n\n            \n\n            <button id=\"btn_XrayToExam\" type=\"submit\" class=\"btn btn-sm btn-primary m-3\" [disabled]=\"toExamDisabled\"> To Examination </button>\n\n            \n\n            <hr>\n\n    </form>\n\n\n\n\n\n</div>\n"
 
 /***/ }),
 
@@ -4973,6 +4968,8 @@ var XrayComponent = /** @class */ (function () {
         this.filesService.xrayReload().subscribe(
         // Do Nothing
         );
+        //Update Exam Form
+        this.filesService.updateXrayForm().subscribe(function (data) { _this.openedFiles = data; }, function (error) { console.error("Error", error); });
         // define captured data
         this.xray = {
             results: "",
@@ -4982,10 +4979,7 @@ var XrayComponent = /** @class */ (function () {
     XrayComponent.prototype.openXrayFile = function (id) {
         var _this = this;
         var patientNo = { patientNo: id };
-        this.filesService.openXrayFile(patientNo).subscribe(function (data) {
-            _this.openedFiles = data;
-            _this.notifyService.showInfo("File Opened !", "Info..");
-        }, function (error) {
+        this.filesService.openXrayFile(patientNo).subscribe(function (data) { _this.notifyService.showInfo("File Opened !", "Info.."); }, function (error) {
             console.log("Error", error);
             _this.notifyService.showWarning(error.error, "Warnning!");
         });
@@ -4998,12 +4992,7 @@ var XrayComponent = /** @class */ (function () {
     // ==== Back to Examination =========
     XrayComponent.prototype.onSubmit = function () {
         var _this = this;
-        this.filesService.xrayToExam(this.xray).subscribe(function (data) {
-            _this.notifyService.showSuccess("Sent Back To Exam..", "Success !");
-            setTimeout(function () {
-                location.reload();
-            }, 2000);
-        }, function (error) { console.log(error, "Error!"); });
+        this.filesService.xrayToExam(this.xray).subscribe(function (data) { _this.notifyService.showSuccess("Sent Back To Exam..", "Success !"); }, function (error) { console.log(error, "Error!"); });
     };
     XrayComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -5129,6 +5118,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+
+
 
 
 
@@ -5139,21 +5133,27 @@ var FilesService = /** @class */ (function () {
         this.http = http;
         //Headers
         this.header = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
         });
         //--------- MAIN URL -----------------------------
         this._url = "http://127.0.0.1:8040/";
+        this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_3__(this._url);
     }
-    ;
     // ADMISSION ROUTER
     //-------------Post Admission --------------------------------------
     FilesService.prototype.admitPatient = function (record) {
-        return this.http.post(this._url + "admission", record, { headers: this.header });
+        return this.http.post(this._url + 'admission', record, { headers: this.header });
     };
     // EXAMINATION ROUTER
     //------------- List Admitted Patients ---------------------------
     FilesService.prototype.listAdmitPatient = function () {
-        return this.http.get(this._url + "admission", { headers: this.header });
+        var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_3__();
+        return rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].create(function (observer) {
+            socket.on('/admission', function (data) {
+                observer.next(data);
+            });
+        });
     };
     //-------------- Post Open Admission File
     FilesService.prototype.openAdmFile = function (record) {
@@ -5162,6 +5162,15 @@ var FilesService = /** @class */ (function () {
     //-------------- Examination on Reload ------------------
     FilesService.prototype.examinationReload = function () {
         return this.http.delete(this._url + "examinationreload", { headers: this.header });
+    };
+    //--------------- Update Examination form -------------------
+    FilesService.prototype.updateExamForm = function () {
+        var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_3__();
+        return rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].create(function (observer) {
+            socket.on('/updateexamform', function (data) {
+                observer.next(data);
+            });
+        });
     };
     //--------------- Delete File ----------------------------
     FilesService.prototype.deleteFile = function () {
@@ -5173,7 +5182,12 @@ var FilesService = /** @class */ (function () {
     };
     //------------- List Patients from lab ---------------------------
     FilesService.prototype.listPatientfromLab = function () {
-        return this.http.get(this._url + "listfromlab", { headers: this.header });
+        var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_3__();
+        return rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].create(function (observer) {
+            socket.on('/listfromlab', function (data) {
+                observer.next(data);
+            });
+        });
     };
     //-------------- open File from Lab --------------------
     FilesService.prototype.openFilefromLab = function (record) {
@@ -5185,7 +5199,12 @@ var FilesService = /** @class */ (function () {
     };
     //------------- List  Patients from xray ---------------------------
     FilesService.prototype.listPatientfromXray = function () {
-        return this.http.get(this._url + "listfromxray", { headers: this.header });
+        var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_3__();
+        return rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].create(function (observer) {
+            socket.on('/listfromxray', function (data) {
+                observer.next(data);
+            });
+        });
     };
     //-------------- Open File from Xray ---------------------------------
     FilesService.prototype.openFilefromXray = function (record) {
@@ -5201,7 +5220,12 @@ var FilesService = /** @class */ (function () {
     // LAB ROUTER
     //------------- List ToLab Patients ---------------------------
     FilesService.prototype.listLabPatient = function () {
-        return this.http.get(this._url + "listtolab", { headers: this.header });
+        var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_3__();
+        return rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].create(function (observer) {
+            socket.on('/listtolab', function (data) {
+                observer.next(data);
+            });
+        });
     };
     //-------------- Open LabFile
     FilesService.prototype.openLabFile = function (record) {
@@ -5211,6 +5235,15 @@ var FilesService = /** @class */ (function () {
     FilesService.prototype.labReload = function () {
         return this.http.delete(this._url + "labreload", { headers: this.header });
     };
+    //--------------- Update Lab form -------------------
+    FilesService.prototype.updateLabForm = function () {
+        var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_3__();
+        return rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].create(function (observer) {
+            socket.on('/updatelabform', function (data) {
+                observer.next(data);
+            });
+        });
+    };
     //--------------- Lab to exam ----------------------------
     FilesService.prototype.labToExam = function (record) {
         return this.http.post(this._url + "labtoexam", record, { headers: this.header });
@@ -5218,7 +5251,12 @@ var FilesService = /** @class */ (function () {
     // XRAY ROUTER
     //------------- List ToLab Patients ---------------------------
     FilesService.prototype.listXrayPatient = function () {
-        return this.http.get(this._url + "listtoxray", { headers: this.header });
+        var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_3__();
+        return rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].create(function (observer) {
+            socket.on('/listtoxray', function (data) {
+                observer.next(data);
+            });
+        });
     };
     //-------------- Open Xray File
     FilesService.prototype.openXrayFile = function (record) {
@@ -5228,6 +5266,15 @@ var FilesService = /** @class */ (function () {
     FilesService.prototype.xrayReload = function () {
         return this.http.delete(this._url + "xrayreload", { headers: this.header });
     };
+    //--------------- Update Xray form -------------------
+    FilesService.prototype.updateXrayForm = function () {
+        var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_3__();
+        return rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].create(function (observer) {
+            socket.on('/updatexrayform', function (data) {
+                observer.next(data);
+            });
+        });
+    };
     //--------------- Xray to exam ----------------------------
     FilesService.prototype.xrayToExam = function (record) {
         return this.http.post(this._url + "xraytoexam", record, { headers: this.header });
@@ -5235,7 +5282,12 @@ var FilesService = /** @class */ (function () {
     // PHARMACY ROUTER 
     //------------- List Pharmacy Patients ---------------------------
     FilesService.prototype.listPharmacyPatient = function () {
-        return this.http.get(this._url + "listpharmacy", { headers: this.header });
+        var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_3__();
+        return rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].create(function (observer) {
+            socket.on('/listpharmacy', function (data) {
+                observer.next(data);
+            });
+        });
     };
     //-------------- Open Pharmacy File
     FilesService.prototype.openPharmacyFile = function (record) {
@@ -5244,6 +5296,15 @@ var FilesService = /** @class */ (function () {
     //-------------- Pharmacy on Reload ------------------
     FilesService.prototype.pharmacyReload = function () {
         return this.http.delete(this._url + "pharmacyreload", { headers: this.header });
+    };
+    //--------------- Update Xray form -------------------
+    FilesService.prototype.updatePharmacyForm = function () {
+        var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_3__();
+        return rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].create(function (observer) {
+            socket.on('/updatepharmacyform', function (data) {
+                observer.next(data);
+            });
+        });
     };
     //--------------- save File ----------------------------
     FilesService.prototype.saveFile = function (record) {
@@ -5329,6 +5390,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+
+
 
 
 
@@ -5338,20 +5404,31 @@ var StatsService = /** @class */ (function () {
         this.http = http;
         //Headers
         this.header = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
         });
         //--------- MAIN URL -----------------------------
         this._url = "http://127.0.0.1:8040/";
+        this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_3__(this._url);
     }
-    ;
     //--------------------------------------------------------
     // Monitor
     StatsService.prototype.monitor = function () {
-        return this.http.get(this._url + "monitor", { headers: this.header });
+        var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_3__();
+        return rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].create(function (observer) {
+            socket.on('/monitor', function (data) {
+                observer.next(data);
+            });
+        });
     };
     // Medical Records database
     StatsService.prototype.medicalDb = function () {
-        return this.http.get(this._url + "medicaldb", { headers: this.header });
+        var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_3__();
+        return rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].create(function (observer) {
+            socket.on('/medicaldb', function (data) {
+                observer.next(data);
+            });
+        });
     };
     //-------------- Open medical file -----------------------------
     StatsService.prototype.openmedical = function (record) {
@@ -5367,7 +5444,12 @@ var StatsService = /** @class */ (function () {
     };
     // User database
     StatsService.prototype.userDb = function () {
-        return this.http.get(this._url + "userdb", { headers: this.header });
+        var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_3__();
+        return rxjs__WEBPACK_IMPORTED_MODULE_4__["Observable"].create(function (observer) {
+            socket.on('/userdb', function (data) {
+                observer.next(data);
+            });
+        });
     };
     //-------------- Open user Clinician -----------------------
     StatsService.prototype.openuserclinician = function (record) {
@@ -5427,12 +5509,12 @@ var UsersService = /** @class */ (function () {
         this.http = http;
         //Headers
         this.header = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
         });
         //--------- MAIN URL -----------------------------
         this._url = "http://127.0.0.1:8040/";
     }
-    ;
     //-------------Post Clinician Registration -----------------------------
     UsersService.prototype.regClinician = function (record) {
         return this.http.post(this._url + "regclinician", record, { headers: this.header });
@@ -5601,6 +5683,17 @@ __webpack_require__.r(__webpack_exports__);
 
 module.exports = __webpack_require__(/*! C:\TheCode\meanApp\kimsapp\src\main.ts */"./src/main.ts");
 
+
+/***/ }),
+
+/***/ 1:
+/*!********************!*\
+  !*** ws (ignored) ***!
+  \********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/* (ignored) */
 
 /***/ })
 
