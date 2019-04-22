@@ -62,9 +62,7 @@ app.post('/regclinician', urlencodedParser, function(req, res){
 });
 
 //------------------------Clinician Login--------------------------------------
-app.post('/logclinician', cors(), urlencodedParser, function(req, res, err, next){
-
-    if (err){ res.status(500).json("Server Out of Reach !") }
+app.post('/logclinician', cors(), urlencodedParser, function(req, res, next){
 
     if (req.body){
    
@@ -152,9 +150,7 @@ app.post('/regadmin', cors(), urlencodedParser, function(req, res){
 
 
 //----------------- Admin Login -----------------------------//
-app.post('/logadmin', cors(), urlencodedParser, function( req, res, err, next){
-
-    if (err){ res.status(500).json("Server Out of Reach !") }
+app.post('/logadmin', cors(), urlencodedParser, function( req, res, next){
 
     if (req.body){ 
 

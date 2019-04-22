@@ -7,13 +7,8 @@ var app = express();
 var server = http.createServer(app);
 var socketIO = require('socket.io');
 var io = socketIO.listen(server);
+var cors = require('cors');
 
-
-
-// Controlers
-var users = require('./controllers/users.js');
-var files = require('./controllers/files.js');
-var stats = require('./controllers/stats.js');
 
 // DB Config
 var db = require('./config/keys').MongoURI;
@@ -34,9 +29,19 @@ app.locals = {
     activeONE : [], activeTWO : [], activeTHREE : [], activeFOUR : [],activeMED : [], activeUSER : []
 };
 
+//cors
+app.use(cors({
+    credentials : true
+}));
+
 // Passport Middleware
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Controlers
+var users = require('./controllers/users.js');
+var files = require('./controllers/files.js');
+var stats = require('./controllers/stats.js');
 
 // controllers
 users(app);
@@ -47,7 +52,7 @@ stats(app, io);
 app.use(express.static(path.join(__dirname, '/public')));
 
 //Get all Routes
-app.get('/*', function(req, res){
+app.get('/*', cors(), function(req, res){
     res.sendFile(path.join(__dirname, '/public/index.html'));
 });
 
