@@ -6,6 +6,13 @@ var urlencodedParser = bodyParser.urlencoded({extended: true});
 // Load Models
 var ClinicianUser = require('../models/User').ClinicianUser;
 var AdminUser = require('../models/User').AdminUser;
+var AtAdmissionFiles = require('../models/File').AtAdmissionFiles;
+var ToLabFiles = require('../models/File').ToLabFiles;
+var FromLabFiles = require('../models/File').FromLabFiles;
+var ToXrayFiles = require('../models/File').ToXrayFiles;
+var FromXrayFiles = require('../models/File').FromXrayFiles;
+var ToPharmacyFiles = require('../models/File').ToPharmacyFiles;
+var SavedFiles = require('../models/File').SavedFiles;
 
 
 // ============================================//
@@ -17,32 +24,54 @@ module.exports = function(app, io){
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended : true}));
    
-
-    var databaseONE = app.locals.databaseONE;
-    var databaseTWO = app.locals.databaseTWO;
-    var databaseTHREE = app.locals.databaseTHREE;
-    var databaseFOUR = app.locals.databaseFOUR;
-    var databaseFIVE = app.locals.databaseFIVE;
-    var databaseSIX = app.locals.databaseSIX;
-    var databaseSEVEN = app.locals.databaseSEVEN;
+    // variables
     var activeMED = app.locals.activeMED;
     var activeUSER = app.locals.activeUSER;
     
-// Monitor
 
+    
+// Monitor
 setInterval(() =>{
 
-    io.emit('/monitor',{
-        fromAdm     : databaseONE.length,
-        toLab       : databaseTWO.length,
-        fromLab     : databaseTHREE.length,
-        toXray      : databaseFOUR.length,
-        fromXray    : databaseFIVE.length,
-        toPharmacy  : databaseSIX.length,
-        archived    : databaseSEVEN.length
-    });
+    AtAdmissionFiles.find({}).then( admFiles =>{
 
-}, 1000);
+        ToLabFiles.find({}).then( tolabFiles =>{
+
+            FromLabFiles.find({}).then( fromlabFiles =>{
+
+                ToXrayFiles.find({}).then( toxrayFiles =>{
+
+                    FromXrayFiles.find({}).then( fromxrayFiles =>{
+
+                        ToPharmacyFiles.find({}).then( topharmacyFiles =>{
+
+                            SavedFiles.find({}).then( savedFiles =>{
+
+                                io.emit('/monitor',{
+                                    fromAdm     : admFiles.length,
+                                    toLab       : tolabFiles.length,
+                                    fromLab     : fromlabFiles.length,
+                                    toXray      : toxrayFiles.length,
+                                    fromXray    : fromxrayFiles.length,
+                                    toPharmacy  : topharmacyFiles.length,
+                                    archived    : savedFiles.length
+                                });
+
+                            }).catch(err => console.log(err));
+
+                        }).catch(err => console.log(err));
+
+                    }).catch(err => console.log(err));
+
+                }).catch(err => console.log(err));
+
+            }).catch(err => console.log(err));
+
+        }).catch(err => console.log(err));
+
+    }).catch(err => console.log(err));
+
+}, 100);
 
 
 
@@ -53,12 +82,18 @@ setInterval(() =>{
 // Medical Database
 setInterval(() =>{
 
-    io.emit('/medicaldb',{
-        archivednumber  : databaseSEVEN.length,
-        archivedfiles   : databaseSEVEN
-    });
+    SavedFiles.find({}).then( savedFiles =>{
 
-}, 1000);
+        io.emit('/medicaldb',{
+            archivednumber  : savedFiles.length,
+            archivedfiles   : savedFiles
+        });
+
+    }).catch(err => console.log(err));
+
+    
+
+}, 100);
 
 //====== Opening medical file =======
 app.post('/openmedical', cors(), urlencodedParser, function(req, res){
@@ -67,23 +102,21 @@ app.post('/openmedical', cors(), urlencodedParser, function(req, res){
         return false;
     });   
 
-    for (var i = 0; i < databaseSEVEN.length; i++){
-        if ( req.body.patientNo == databaseSEVEN[i].patientNo ) {
+    SavedFiles.findOne({ patientNo : req.body.patientNo }).then( file => {
 
-            req.body.name = databaseSEVEN[i].name;
-            req.body.patientNo = databaseSEVEN[i].patientNo;
-            req.body.age = databaseSEVEN[i].age;
-            req.body.gender = databaseSEVEN[i].gender;
-            req.body.signs = databaseSEVEN[i].signs;
-            req.body.tests = databaseSEVEN[i].tests;
-            req.body.results = databaseSEVEN[i].results;
-            req.body.dx = databaseSEVEN[i].dx;
+        req.body.name = file.name;
+        req.body.patientNo = file.patientNo;
+        req.body.age = file.age;
+        req.body.gender = file.gender;
+        req.body.signs = file.signs;
+        req.body.tests = file.tests;
+        req.body.results = file.results;
+        req.body.dx = file.dx;
 
-            activeMED.push(req.body);             
-            res.json(activeMED);
+        activeMED.push(req.body);             
+        res.json(activeMED);
 
-        }
-    }            
+    }).catch(err => console.log(err));           
    
 });  
 
@@ -100,19 +133,16 @@ app.delete('/medonreload', cors(), function(req, res){
 
 // Delete Medical
 app.delete('/deletemedical', cors(), function(req, res){
-       
-    for(var i=0; i < databaseSEVEN.length; i++){
-        if (activeMED[0].patientNo == databaseSEVEN[i].patientNo){
 
-            databaseSEVEN.splice(i, 1);
+    SavedFiles.deleteOne({ patientNo : activeMED[0].patientNo }).then( file => {
 
-            activeMED = activeMED.filter(function(){
-                return false;
-            });
+        activeMED = activeMED.filter(function(){
+            return false;
+        });
 
-            res.json(databaseSEVEN);
-        }
-    } 
+        res.json(file);
+
+    }).catch(err => console.log(err));
 
 });
 
@@ -148,7 +178,7 @@ setInterval(() =>{
 
 
 
-}, 1000);   
+}, 100);   
 
 
 
